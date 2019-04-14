@@ -1,0 +1,111 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<style>
+  /* set the CSS */
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+  }
+
+  .axis {
+    font: 12px sans-serif;
+  }
+</style>
+
+<body>
+  <div id="vis1"></div>
+
+  <!-- Load thr d3.js library -->
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script>
+    let margin = {
+        top: 40,
+        right: 20,
+        bottom: 40,
+        left: 60
+      },
+      width = 560 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
+
+    // parse the date / time
+    const parseTime = d3.timeParse("%d/%m/%Y");
+
+    // Set the ranges
+    let x = d3.scaleTime().range([0, width]);
+    let y = d3.scaleLinear().range([height, 0]);
+
+    let valueLine = d3.line()
+      .x(function (d) {
+        return x(d.year);
+      })
+      .y(function (d) {
+        return y(d.eea);
+      })
+
+    // append the svg object to the body of the page
+    // appends a 'group' element to 'svg'
+    // moves the 'group' element to the top left margin
+    const svg = d3.select("#vis1").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // Get the data
+    d3.csv("nurses_total.csv", function (error, data) {
+
+
+      if (error) throw error;
+      // format the data
+      data.forEach(function (d) {
+        console.log(d.eea);
+        d.year = parseTime(d.year)
+        d.eea = +d.eea;
+        console.log(d.eea);
+
+      });
+
+      // Scale the range of the data
+      x.domain(d3.extent(data, function (d) {
+        return d.year;
+      }));
+      y.domain([0, d3.max(data, function (d) {
+        return d.eea;
+      })])
+
+      // Add the valueline Path
+      svg.append("path")
+        .data([data])
+        .attr("class", "line")
+        .attr("d", valueLine);
+
+      // Add the x axis
+      svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(x)
+          .ticks(5));
+
+      // Add the y axis
+      svg.append("g")
+        .attr("class", "axis")
+        .call(d3.axisLeft(y));
+
+
+
+
+
+
+    })
+  </script>
+</body>
+
+</html>
