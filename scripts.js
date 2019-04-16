@@ -15,24 +15,150 @@
   // moves the 'group' element to the top left margin
   const svg = d3.select("#vis1")
     .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+// Set x, y
+  let x = d3.scaleBand()
+      .range([0, width])
+      .padding(0.01);
 
+  let y = d3.scaleLinear()
+      .range([height, 0]);
+
+  // Add the x axis
+  svg.append("g")
+  .attr("class", "x axis")
+  .attr("transform", `translate(0, ${height})`);
+
+  
+// Add the y axis
+svg.append("g")
+  .attr("class", "y axis")
+  
+  let x_axis =d3.axisBottom(x).tickSizeOuter(0);
+  let y_axis = d3.axisLeft(y);
+
+  // create colours array
+  const colours = ["#ccebc5", "#b3cde3", "#fbb4ae"];
+  
   // Create div for tooltip
   let div = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+// create keys array to store names of the columns
+const keys = ["UK", "Outside the EEA", "EEA"]; 
 
+
+
+function showSingleBar(keyIndex){
+  d3.csv("nurses_total.csv", type, function (error, data) {
+
+    if (error) throw error;
+    
+    // create transition object
+    let t = d3.transition()
+        .duration(1500);
+    
+    // list of years -> x axis
+    let years = d3.map(data, function (d) {
+      return d.year
+    }).keys();
+
+
+    // Set x, y and colours
+    x.domain(years); // padding will change space between columns
+
+    y.domain([0, d3.max(data, function (d) {
+         return d[keys[keyIndex]]; })]);
+
+    
+    // show the bars
+    let bars = svg.selectAll(".bar")
+        .data(data)
+        .attr("fill", colours[keyIndex])
+        .on("mouseover", mouseOver)
+        .on("mousemove", mouseMove)
+        .on("mouseout", mouseOut);
+
+    // exit
+      bars
+        .enter()
+        .remove();
+    
+      // enter
+
+      let newBars = bars
+        .enter()
+        .append("rect")
+        .attr('class', 'bar')
+        .attr("fill", colours[keyIndex])
+        .attr('height', 0)
+        .attr('y', height)
+        .attr('width', x.bandwidth());
+        
+
+      // update
+      newBars.merge(bars)
+        .transition(t)
+        .attr("x", function(d) { return x(d.year); })
+        .attr("width", x.bandwidth())
+        .attr("y", function(d) { return y(d[keys[keyIndex]]); })
+        .attr("height", function(d) { return height - y(d[keys[keyIndex]])});
+      
+      
+      newBars.on("mouseover", mouseOver)
+      .on("mousemove", mouseMove)
+      .on("mouseout", mouseOut);
+
+
+    svg.select('.x.axis')
+            .transition(t)
+            .call(x_axis);
+
+        svg.select('.y.axis')
+            .transition(t)
+            .call(y_axis);
+
+    })
+
+    function mouseOver(d){
+      div.transition()
+              .duration(200)
+              .style("opacity", .9);
+    
+               div.html(`${keys[keyIndex]}: <br> ${this.d[keys[keyIndex]]}`)
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY) + "px");
+    }
+    
+    function mouseMove(d){
+      div.style('top', (d3.event.pageY - 20) + "px")
+             .style('left', (d3.event.pageX + 20) + "px");
+    }
+    
+    function mouseOut(d){
+      div.transition()
+      .duration(500)
+      .style("opacity", 0);
+    }
+  }
+
+
+function showStackedChartTotal(){
   // Get the data
   d3.csv("nurses_total.csv", type, function (error, data) {
 
     if (error) throw error;
 
+    // create transition object
+    let t = d3.transition()
+        .duration(1500);
+        
     // list of subgroups (header of csv files)
     let subgroups = data.columns.slice(1);
 
@@ -60,8 +186,7 @@
       .domain(subgroups)
       .range(["#ccebc5", "#b3cde3", "#fbb4ae"]); // TODO: change colors
     
-    let colours =  ["#ccebc5", "#b3cde3", "#fbb4ae"];
-
+    
 
     // stack the data
     let stackedData = d3.stack()
@@ -96,7 +221,7 @@
         // subgroup Name and Value with reference to https://www.d3-graph-gallery.com/graph/barplot_stacked_hover.html 
         let subgroupName = d3.select(this.parentNode).datum().key;
         let subgroupValue = d.data[subgroupName];
-        div.html(`${subgroupValue}`)
+        div.html(`${subgroupName}: <br>${subgroupValue}`)
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY) + "px");
       })
@@ -144,11 +269,11 @@
       .text(function (d) { return d; });
 
 
-    
-      
-   
-
   });
+
+
+}
+  
 
   function type(d, i, columns) {
     for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
@@ -158,4 +283,13 @@
 
   function handleLegendItemClick(){
     console.log(this);
+    showSingleBar(0);
   }
+
+
+showStackedChartTotal();
+// showSingleBar(1);
+// setTimeout(function(){
+//   showSingleBar(2)
+// }, 3000)
+//showSingleBar(2);
