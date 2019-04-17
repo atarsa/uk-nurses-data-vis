@@ -300,13 +300,13 @@ function showStackedChartTotal(){
 }
   function addLegend(data){
     // add title legend
-    svg.append("text")
-    .attr("x", width + 18)
-    .attr("y", -10)
-    .attr("text-anchor", "start")
-    .text("Initial Registration:")
-    .style("font", "12px sans-serif")
-    .style("font-weight", "bold");
+    // svg.append("text")
+    // .attr("x", width + 18)
+    // .attr("y", -10)
+    // .attr("text-anchor", "start")
+    // .text("Initial Registration:")
+    // .style("font", "12px sans-serif")
+    // .style("font-weight", "bold");
 
   // add legend 
   let legend = svg.selectAll(".legend")
@@ -345,51 +345,155 @@ function showStackedChartTotal(){
  
 
 showStackedChartTotal();
-// setTimeout(function(){
-//   showSingleBar(2)
-//   //showStackedChartTotal()
-// }, 3000)
-//showSingleBar(2);
+autoChangeCircleColor(0);
+
 
 // ============= HANDLE VIS STEPS ==========
 // get total nurses visulisation
 const exploreTotalBtnDiv = document.querySelector(".step-btns");
 const explanationDiv = document.querySelector(".explanation");
 
+const backBtn = document.querySelector(".step-back");
+const nextBtn = document.querySelector(".step-next");
+
+let currentDiv = 0;
+
 exploreTotalBtnDiv.addEventListener("click", function(e){
-  console.log(e.target.id)
+  
   switch (e.target.id ){
     case "stack-total":
-
-      changeCircleColorOnClick(e);
-      showStackedChartTotal();
-      explanationDiv.innerHTML = `<h4> Total number of Nurses And Midwives</h4>
-      <p>some more info here</p>`;
-       break;
+      showNursesTotal(e);
+      // changeCircleColorOnClick(e);
+      // showStackedChartTotal();
+      // explanationDiv.innerHTML = `<h4> Total number of Nurses And Midwives</h4>
+      // <p>some more info here</p>`;
+      // currentDiv = 0;
+       break; 
     
     case "bar-uk":
-      changeCircleColorOnClick(e);
-      showSingleBar(0);
-      explanationDiv.innerHTML = `<h4>  Number of Nurses And Midwives with initial registartion in UK</h4>
-      <p>some more info here</p>`
+      showNursesUK(e);
+      // changeCircleColorOnClick(e);
+      // showSingleBar(0);
+      // explanationDiv.innerHTML = `<h4>  Number of Nurses And Midwives with initial registartion in UK</h4>
+      // <p>some more info here</p>`
+      // currentDiv = 1;
       break;
 
     case "bar-neea":
-      changeCircleColorOnClick(e);
-      showSingleBar(1);
-      explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion outside EEA</h4>
-      <p>some more info here</p>`
+      showNursesNEEA(e)
+      // changeCircleColorOnClick(e);
+      // showSingleBar(1);
+      // explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion outside EEA</h4>
+      // <p>some more info here</p>`;
+      // currentDiv = 2;
       break;
 
     case "bar-eea":
-      changeCircleColorOnClick(e);
-      showSingleBar(2);
-      explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion in EEA</h4>
-      <p>some more info here</p>`
+      showNursesEEA(e);
+      // changeCircleColorOnClick(e);
+      // showSingleBar(2);
+      // explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion in EEA</h4>
+      // <p>some more info here</p>`;
+      // currentDiv = 3;
       break;
   }
     
 })
+
+backBtn.addEventListener("click", handleBackNextBtn);
+nextBtn.addEventListener("click", handleBackNextBtn);
+
+function handleBackNextBtn(e){
+  console.log(currentDiv);
+  if (e.target.matches(".step-back") ){
+    if(currentDiv > 0){
+      currentDiv = currentDiv - 1;
+      console.log(currentDiv); 
+    }
+    
+  } else // next button
+  {
+    if(currentDiv < 3){
+      currentDiv = currentDiv + 1; 
+      console.log(currentDiv);
+    }
+  }
+
+  switch (currentDiv ){
+    case 0:
+      showNursesTotal(e);
+      autoChangeCircleColor(0);
+      // changeCircleColorOnClick(e);
+      // showStackedChartTotal();
+      // explanationDiv.innerHTML = `<h4> Total number of Nurses And Midwives</h4>
+      // <p>some more info here</p>`;
+      // currentDiv = 0;
+       break; 
+    
+    case 1:
+      showNursesUK(e);
+      autoChangeCircleColor(1);
+      // changeCircleColorOnClick(e);
+      // showSingleBar(0);
+      // explanationDiv.innerHTML = `<h4>  Number of Nurses And Midwives with initial registartion in UK</h4>
+      // <p>some more info here</p>`
+      // currentDiv = 1;
+      break;
+
+    case 2:
+      showNursesNEEA(e)
+      autoChangeCircleColor(2);
+      // changeCircleColorOnClick(e);
+      // showSingleBar(1);
+      // explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion outside EEA</h4>
+      // <p>some more info here</p>`;
+      // currentDiv = 2;
+      break;
+
+    case 3:
+      showNursesEEA(e);
+      autoChangeCircleColor(3);
+      // changeCircleColorOnClick(e);
+      // showSingleBar(2);
+      // explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion in EEA</h4>
+      // <p>some more info here</p>`;
+      // currentDiv = 3;
+      break;
+ 
+
+}}
+// helpers functions to show correct visualisation
+function showNursesTotal(e){
+  changeCircleColorOnClick(e);
+      showStackedChartTotal();
+      explanationDiv.innerHTML = `<h4> Total number of Nurses And Midwives</h4>
+      <p>some more info here</p>`;
+      currentDiv = 0;
+}
+
+function showNursesUK(e){
+  changeCircleColorOnClick(e);
+      showSingleBar(0);
+      explanationDiv.innerHTML = `<h4>  Number of Nurses And Midwives with initial registartion in UK</h4>
+      <p>some more info here</p>`
+      currentDiv = 1;
+}
+
+function showNursesNEEA(e){
+  changeCircleColorOnClick(e);
+  showSingleBar(1);
+  explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion outside EEA</h4>
+  <p>some more info here</p>`;
+  currentDiv = 2;
+}
+
+function showNursesEEA(e){
+  changeCircleColorOnClick(e);
+      showSingleBar(2);
+      explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion in EEA</h4>
+      <p>some more info here</p>`;
+      currentDiv = 3;
+}
 
 function changeCircleColorOnClick(e){
   const circles = document.querySelectorAll(".circle");
@@ -400,4 +504,15 @@ function changeCircleColorOnClick(e){
   
   e.target.style.background = "grey";
 
+}
+
+function autoChangeCircleColor(circle_id){
+  console.log("change color: ", circle_id)
+  const circles = document.querySelectorAll(".circle");
+ 
+  for (let i = 0; i < circles.length; i++){
+    circles[i].style.background = "white";
+  }
+  
+  circles[circle_id].style.background = "grey";
 }
