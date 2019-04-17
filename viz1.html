@@ -5,50 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="stylesheet" href="main.css">
 </head>
 
 <style>
   /* set the CSS */
-
-  h3 {
-    text-align: center;
-  }
-
-  .chart text {
-    fill: white;
-    font: 12px sans-serif;
-    text-anchor: end;
-  }
-
-  div.tooltip {
-    position: absolute;
-    text-align: center;
-    vertical-align: middle;
-
-    padding: 3px;
-    font: 12px sans-serif;
-    background: rgb(209, 220, 235);
-    border: 0px;
-    border-radius: 5px;
-    pointer-events: none;
-  }
-
-  .rect {
-    display: inline-block;
-    height: 20px;
-    margin-right: 5px;
-    width: 20px;
-    position: relative;
-
-  }
 </style>
 
 <body>
   <h3>Total number of Nurses and Midwives in UK 2013-2018</h3>
   <div id="vis1"></div>
-  <div class="legend1">
-    <h5>Initial Registration In: </h5>
-    <div class="legend"></div>
+  <div class="explore-total">
+    <h5>Explore: </h5>
+    <div class="step-btns">
+      <div class="circle" id="stack-total"></div>
+      <div class="circle" id="bar-uk"></div>
+      <div class="circle" id="bar-neea"></div>
+      <div class="circle" id="bar-eea"></div>
+    </div>
+    <div class="explanation"></div>
+
   </div>
 
 

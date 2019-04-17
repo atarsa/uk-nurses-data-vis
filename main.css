@@ -1,0 +1,45 @@
+.circle {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.circle:hover,
+.circle:active {
+  background-color: grey;
+}
+
+h3 {
+  text-align: center;
+}
+
+.chart text {
+  fill: white;
+  font: 12px sans-serif;
+  text-anchor: end;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+
+  padding: 3px;
+  font: 12px sans-serif;
+  background: rgb(209, 220, 235);
+  border: 0px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.rect {
+  display: inline-block;
+  height: 20px;
+  margin-right: 5px;
+  width: 20px;
+  position: relative;
+
+}

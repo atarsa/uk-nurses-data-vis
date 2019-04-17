@@ -128,6 +128,8 @@ function showSingleBar(keyIndex){
       svg.select('.y.axis')
             .transition(t)
             .call(y_axis);
+      
+      addLegend(data);
 
     })
 
@@ -261,6 +263,7 @@ function showStackedChartTotal(){
       });
 
 
+
      // Call the  axis
       svg.select('.x.axis')
             .transition(t)
@@ -270,32 +273,68 @@ function showStackedChartTotal(){
             .transition(t)
             .call(y_axis);
 
-    // add legend 
-    let legend = d3.select(".legend").append("ul");
+    // // add legend 
+    // let legend = d3.select(".legend").append("ul");
 
-    let legendItems = legend.selectAll("li")
-      .data(data.columns.slice(1))
-      .enter()
-      .append("li")
-      .attr("data-key", function(d,i) {return d; }) 
-      .attr("data-index", function(d,i) {return i; })
-      .attr("data-colour", function(d,i) {  return colours[i]; })
-      .on('click', handleLegendItemClick);
+    // let legendItems = legend.selectAll("li")
+    //   .data(data.columns.slice(1))
+    //   .enter()
+    //   .append("li")
+    //   .attr("data-key", function(d,i) {return d; }) 
+    //   .attr("data-index", function(d,i) {return i; })
+    //   .attr("data-colour", function(d,i) {  return colours[i]; })
+    //   .on('click', handleLegendItemClick);
 
 
-    legendItems.append("span")
-      .attr("class", "rect")
-      .style("background-color", function(d,i) {return colours[i]});
+    // legendItems.append("span")
+    //   .attr("class", "rect")
+    //   .style("background-color", function(d,i) {return colours[i]});
 
-    legendItems.append("span")
-      .text(function (d) { return d; });
-
+    // legendItems.append("span")
+    //   .text(function (d) { return d; });
+      addLegend(data)
 
   });
 
 
 }
-  
+  function addLegend(data){
+    // add title legend
+    svg.append("text")
+    .attr("x", width + 18)
+    .attr("y", -10)
+    .attr("text-anchor", "start")
+    .text("Initial Registration:")
+    .style("font", "12px sans-serif")
+    .style("font-weight", "bold");
+
+  // add legend 
+  let legend = svg.selectAll(".legend")
+    .data(data.columns.slice(1))
+    .enter().append("g")
+    .attr("class", "legend")
+    .attr("transform", function (d, i) {
+      return "translate(0," + i * 20 + ")";
+    })
+    .style("font", "12px sans-serif");
+
+    legend.append("rect")
+    .attr("x", width + 18)
+    .attr("width", 18)
+    .attr("height", 18)
+    .attr("fill", function(d,i ){
+      return colours[i];
+    });
+
+    legend.append("text")
+    .attr("x", width + 44)
+    .attr("y", 9)
+    .attr("dy", ".35em")
+    .attr("text-anchor", "start")
+    .text(function (d) {
+      return d;
+    });
+  }
 
   function type(d, i, columns) {
     for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
@@ -303,16 +342,62 @@ function showStackedChartTotal(){
     return d;
   }
 
-  function handleLegendItemClick(){
-    console.log(this);
-    showSingleBar(0);
-  }
-
+ 
 
 showStackedChartTotal();
-showSingleBar(1);
-setTimeout(function(){
-  //showSingleBar(2)
-  showStackedChartTotal()
-}, 3000)
+// setTimeout(function(){
+//   showSingleBar(2)
+//   //showStackedChartTotal()
+// }, 3000)
 //showSingleBar(2);
+
+// ============= HANDLE VIS STEPS ==========
+// get total nurses visulisation
+const exploreTotalBtnDiv = document.querySelector(".step-btns");
+const explanationDiv = document.querySelector(".explanation");
+
+exploreTotalBtnDiv.addEventListener("click", function(e){
+  console.log(e.target.id)
+  switch (e.target.id ){
+    case "stack-total":
+
+      changeCircleColorOnClick(e);
+      showStackedChartTotal();
+      explanationDiv.innerHTML = `<h4> Total number of Nurses And Midwives</h4>
+      <p>some more info here</p>`;
+       break;
+    
+    case "bar-uk":
+      changeCircleColorOnClick(e);
+      showSingleBar(0);
+      explanationDiv.innerHTML = `<h4>  Number of Nurses And Midwives with initial registartion in UK</h4>
+      <p>some more info here</p>`
+      break;
+
+    case "bar-neea":
+      changeCircleColorOnClick(e);
+      showSingleBar(1);
+      explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion outside EEA</h4>
+      <p>some more info here</p>`
+      break;
+
+    case "bar-eea":
+      changeCircleColorOnClick(e);
+      showSingleBar(2);
+      explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion in EEA</h4>
+      <p>some more info here</p>`
+      break;
+  }
+    
+})
+
+function changeCircleColorOnClick(e){
+  const circles = document.querySelectorAll(".circle");
+ 
+  for (let i = 0; i < circles.length; i++){
+    circles[i].style.background = "white";
+  }
+  
+  e.target.style.background = "grey";
+
+}
