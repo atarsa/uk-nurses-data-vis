@@ -35,8 +35,8 @@
 
   
 // Add the y axis
-svg.append("g")
-  .attr("class", "y axis")
+  svg.append("g")
+    .attr("class", "y axis")
   
   let x_axis =d3.axisBottom(x).tickSizeOuter(0);
   let y_axis = d3.axisLeft(y);
@@ -74,11 +74,16 @@ function showSingleBar(keyIndex){
     x.domain(years); // padding will change space between columns
 
     y.domain([0, d3.max(data, function (d) {
-         return d[keys[keyIndex]]; })]);
+         return d[keys[keyIndex]]; })]).nice();
 
+    // remove stack bars if present
+    svg.selectAll("g.stack")
+        //.transition(t)
+        .remove();
     
-    // show the bars
+        // show the bars
     let bars = svg.selectAll(".bar")
+    //svg.selectAll(".bar")
         .data(data)
         .attr("fill", colours[keyIndex])
         .on("mouseover", mouseOver)
@@ -116,11 +121,11 @@ function showSingleBar(keyIndex){
       .on("mouseout", mouseOut);
 
 
-    svg.select('.x.axis')
+      svg.select('.x.axis')
             .transition(t)
             .call(x_axis);
 
-        svg.select('.y.axis')
+      svg.select('.y.axis')
             .transition(t)
             .call(y_axis);
 
@@ -131,7 +136,7 @@ function showSingleBar(keyIndex){
               .duration(200)
               .style("opacity", .9);
     
-               div.html(`${keys[keyIndex]}: <br> ${this.d[keys[keyIndex]]}`)
+               div.html(`${keys[keyIndex]}: <br> ${d[keys[keyIndex]]}`)
               .style("left", (d3.event.pageX) + "px")
               .style("top", (d3.event.pageY) + "px");
     }
@@ -169,51 +174,71 @@ function showStackedChartTotal(){
 
 
     // Set x, y and colours
-    let x = d3.scaleBand()
-      .domain(years)
-      .range([0, width])
-      .padding(0.01); // padding will change space between columns
-
-
-    let y = d3.scaleLinear()
-      .domain([0, d3.max(data, function (d) {
+    x.domain(years)
+      
+    y.domain([0, d3.max(data, function (d) {
         return d.total;
-      })])
-      .range([height, 0]);
+      })]).nice();
 
-
+    
     let colour = d3.scaleOrdinal()
       .domain(subgroups)
       .range(["#ccebc5", "#b3cde3", "#fbb4ae"]); // TODO: change colors
     
     
+     // stack the data
+     let stackedData = d3.stack()
+     .keys(subgroups)
+     (data)
 
-    // stack the data
-    let stackedData = d3.stack()
-      .keys(subgroups)
-      (data)
+  // If barchart present remove it 
+   svg.selectAll("rect.bar")
+       .remove()
 
-    // show the bars
-    svg.append("g")
-      .selectAll("g")
-      .data(stackedData)
-      .enter().append("g")
-      .attr("fill", function (d) {
-        return colour(d.key);
-      })
+       // show the bars
+   let bars = svg
+     .selectAll(".stack")
+     .data(stackedData)
+     .attr("fill", function (d) {
+      return colour(d.key);
+    })
+    
 
-      .selectAll("rect")
-      // enter a second time -> loop subgroups to add all rectangles
-      .data(function (d) {
-        return d;
-      })
+
+    bars.enter()
+        .remove()
+
+    
+    // enter new
+    let newBars = bars
       .enter()
-      .append("rect")
-      .attr("x", function (d) {return x(d.data.year); })
-      .attr("y", function (d) { return y(d[1]);})
-      .attr("height", function (d) { return y(d[0]) - y(d[1]); })
-      .attr("width", x.bandwidth())
-      .on("mouseover", function (d) {
+      .append("g")
+      .attr("class", "stack")
+        .attr('height', 0)
+        .attr('y', height)
+       .attr("fill", function (d) {
+       return colour(d.key);
+     })
+     
+     .selectAll("g")
+     // enter a second time -> loop subgroups to add all rectangles
+     .data(function (d) {
+       return d;
+     })
+     .enter()
+     .append("rect")
+
+     newBars.merge(bars)
+     .transition(t)
+     .attr("x", function (d) {return x(d.data.year); })
+     .attr("y", function (d) { return y(d[1]);})
+     .attr("height", function (d) { return y(d[0]) - y(d[1]); })
+     .attr("width", x.bandwidth())
+
+
+        
+      
+      newBars.on("mouseover", function (d) {
         div.transition()
           .duration(200)
           .style("opacity", .9);
@@ -236,17 +261,14 @@ function showStackedChartTotal(){
       });
 
 
-    // Add the x axis
-    svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(x).tickSizeOuter(0));
+     // Call the  axis
+      svg.select('.x.axis')
+            .transition(t)
+            .call(x_axis);
 
-    // Add the y axis
-    svg.append("g")
-      .attr("class", "y axis")
-      .call(d3.axisLeft(y));
-
+      svg.select('.y.axis')
+            .transition(t)
+            .call(y_axis);
 
     // add legend 
     let legend = d3.select(".legend").append("ul");
@@ -288,8 +310,9 @@ function showStackedChartTotal(){
 
 
 showStackedChartTotal();
-// showSingleBar(1);
-// setTimeout(function(){
-//   showSingleBar(2)
-// }, 3000)
+showSingleBar(1);
+setTimeout(function(){
+  //showSingleBar(2)
+  showStackedChartTotal()
+}, 3000)
 //showSingleBar(2);
