@@ -1,0 +1,67 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Is there nurse shortage in the UK?</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h2>Is there a nurses shortage in the UK?</h2>
+  <p>There are approximately 40000 registered nurese vacancies in England [1]. Data for other UK nations is not
+    available. <br>
+    According to Health Foundation, UK has fewer nurses relative to the population than the OECD average, and it is also
+    below many EU countries [2].</p>
+  <div id="vis"></div>
+  <h3>NMC Register</h3>
+  <p>There is slight increase in a number of nurses and midwives registered to work in the UK [3]</p>
+  <div id="vis2"></div>
+  <div class="explore-total">
+    <h5>Explore: </h5>
+    <div class="step-btns">
+      <div class="circle" id="stack-total"></div>
+      <div class="circle" id="bar-uk"></div>
+      <div class="circle" id="bar-neea"></div>
+      <div class="circle" id="bar-eea"></div>
+      <button class="step-btn step-back">Back</button>
+      <button class="step-btn step-next">Next</button>
+    </div>
+    <div class="explanation"></div>
+
+
+    <h4>Initial joiners vs leavers to the NMC register</h4>
+    <div id="vis3"></div>
+
+
+    <h3>Age profile</h3>
+    <p>The two largest age groups on the register are people aged 41–50 and aged 51-60. Together these two age groups
+      account for 56 percent of the total register.
+      <br>
+      Increases to the over 50 age bracket could be linked to changes in the wider UK workforce, where the number of
+      older workers is growing</p>
+    <div id="vis4"></div>
+    <div id="vis5"></div>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="lolipop.js"> </script>
+    <script src="scripts.js"> </script>
+    <script src="joiners.js"></script>
+    <script src="age.js"></script>
+    <script>
+      let animation1 = visNursesPerHabitat();
+      d3.select("#vis").call(animation1);
+
+      showStackedChartTotal();
+      autoChangeCircleColor(0);
+
+      let animation3 = showJoinersVsLeavers();
+      d3.select("#vis3").call(animation3);
+
+      let animation4 = showAgeChart();
+      d3.select("#vis4").call(animation4);
+    </script>
+</body>
+
+</html>

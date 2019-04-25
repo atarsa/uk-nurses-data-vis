@@ -43,3 +43,43 @@ div.tooltip {
   position: relative;
 
 }
+
+body {
+  font: 12px sans-serif;
+
+}
+
+.line {
+  fill: none;
+
+  stroke-width: 2px;
+}
+
+.joiners {
+  stroke: green;
+}
+
+.leavers {
+  stroke: red;
+}
+
+
+.axisTitle {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: rgb(215, 219, 224);
+  border: 0px;
+  border-radius: 3px;
+  pointer-events: none;
+}
