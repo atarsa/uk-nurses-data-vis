@@ -1,60 +1,67 @@
-function showAgeChart(){
-  
-   // Setup svg using Bostock's margin convention
-  const margin = {
-    top: 40,
-    right: 150,
-    bottom: 40,
-    left: 60
-  },
-  width = 560 - margin.left - margin.right,
-  height = 500 - margin.top - margin.bottom;
+// Code loosly inspired by this article https://www.d3-graph-gallery.com/graph/barplot_stacked_hover.html by Yan Holtz 
+    // assessed @14/04/2019
+    // Setup svg using Bostock's margin convention
+    const marginAgeStack = {
+      top: 40,
+      right: 170,
+      bottom: 40,
+      left: 60
+    },
+    widthAgeStack = 560 - marginAgeStack.left - marginAgeStack.right,
+    heightAgeStack = 500 - marginAgeStack.top - marginAgeStack.bottom;
 
-   // create colours array
-   const colours = ["#ccebc5", "#b3cde3", "#fbb4ae", '#e41a1c','#377eb8','#4daf4a','#C7EFCF','#FE5F55','#EEF5DB', "yellow"];
-  
-   // Create div for tooltip
-   let div = d3.select("body")
-     .append("div")
-     .attr("class", "tooltip")
-     .style("opacity", 0);
+  // append the svg object to the body of the page
+  // appends a 'group' element to 'svg'
+  // moves the 'group' element to the top left margin
+  const svgAgeStack = d3.select("#age-stack-chart")
+    .append("svg")
+      .attr("width", widthAgeStack + marginAgeStack.left + marginAgeStack.right)
+      .attr("height", heightAgeStack + marginAgeStack.top + marginAgeStack.bottom)
+    .append("g")
+      .attr("transform", "translate(" + marginAgeStack.left + "," + marginAgeStack.top + ")");
 
+
+
+  // Add the x axis
+  svgAgeStack.append("g")
+  .attr("class", "x axis")
+  .attr("transform", `translate(0, ${heightAgeStack})`);
+
+  
+// Add the y axis
+  svgAgeStack.append("g")
+    .attr("class", "y axis")
+  
+  
+
+  // create colours array
+  const coloursAgeStack = ["#ccebc5", "#b3cde3", "#fbb4ae", '#e41a1c','#377eb8','#4daf4a','#C7EFCF','#FE5F55','#EEF5DB', "yellow"];
+  
+  // Create div for tooltip
+  // let div = d3.select("body")
+  //   .append("div")
+  //   .attr("class", "tooltip")
+  //   .style("opacity", 0);
+
+
+
+
+
+
+
+function showAgeStackChart(){
   // Set x, y
   let x = d3.scaleBand()
-      .range([0, width])
+      .range([0, widthAgeStack])
       .padding(0.01);
 
   let y = d3.scaleLinear()
-      .range([height, 0]);
+      .range([heightAgeStack, 0]);
 
-  let svg;
-
-  function showStackedChartTotal(selection){
-    
-      selection.each(function(){
-
-        let dom = d3.select(this);
-        
-        svg = dom
-        .append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    // Add the x axis
-    svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", `translate(0, ${height})`);
-    
-  // Add the y axis
-    svg.append("g")
-      .attr("class", "y axis")
-    
-    let x_axis =d3.axisBottom(x).tickSizeOuter(0);
-    let y_axis = d3.axisLeft(y);
-
-         // Get the data
+  let x_axis =d3.axisBottom(x).tickSizeOuter(0);
+  let y_axis = d3.axisLeft(y);
+      
+  // Get the data
   d3.csv("age_groups.csv", type, function (error, data) {
 
     if (error) throw error;
@@ -91,11 +98,11 @@ function showAgeChart(){
      (data)
 
   // If percent stack chart present remove it 
-   svg.selectAll(".percent")
+   svgAgeStack.selectAll(".percent")
        .remove()
 
        // show the bars
-   let bars = svg
+   let bars = svgAgeStack
      .selectAll(".stack")
      .data(stackedData)
      .attr("fill", function (d) {
@@ -114,7 +121,7 @@ function showAgeChart(){
       .append("g")
       .attr("class", "stack")
         .attr('height', 0)
-        .attr('y', height)
+        .attr('y', heightAgeStack)
        .attr("fill", function (d) {
        return colour(d.key);
      })
@@ -162,47 +169,34 @@ function showAgeChart(){
 
 
      // Call the  axis
-      svg.select('.x.axis')
+      svgAgeStack.select('.x.axis')
             .transition(t)
             .call(x_axis);
 
-      svg.select('.y.axis')
+      svgAgeStack.select('.y.axis')
             .transition(t)
             .call(y_axis);
 
 
-      addLegend(data)
+      addLegendAgeStack(data)
 
-      });
+  });
 
 
+}
+function percentStack(){
+  // Set x, y
+  let x = d3.scaleBand()
+      .range([0, widthAgeStack])
+      .padding(0.01);
 
-      });
-  };
-
-  function showPercentStack(selection){
-    selection.each(function(){
-      let dom = d3.select(this);
-      svg = dom
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      // Add the x axis
-      svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", `translate(0, ${height})`);
+  let y = d3.scaleLinear()
+      .range([heightAgeStack, 0]);
       
-    // Add the y axis
-      svg.append("g")
-        .attr("class", "y axis")
-      
-      let x_axis =d3.axisBottom(x).tickSizeOuter(0);
-      let y_axis = d3.axisLeft(y);
-
-      // Get the data
+  let x_axis =d3.axisBottom(x).tickSizeOuter(0);
+  let y_axis = d3.axisLeft(y);
+  
+  // Get the data
   d3.csv("age_groups.csv", type, function (error, data) {
 
     if (error) throw error;
@@ -253,11 +247,11 @@ function showAgeChart(){
      (data)
 
   // If stack chart present remove it 
-   svg.selectAll(".stack")
+   svgAgeStack.selectAll(".stack")
        .remove()
 
        // show the bars
-   let bars = svg
+   let bars = svgAgeStack
      .selectAll(".percent")
      .data(stackedData)
      .attr("fill", function (d) {
@@ -276,7 +270,7 @@ function showAgeChart(){
       .append("g")
       .attr("class", "percent")
         .attr('height', 0)
-        .attr('y', height)
+        .attr('y', heightAgeStack)
        .attr("fill", function (d) {
        return colour(d.key);
      })
@@ -324,60 +318,50 @@ function showAgeChart(){
 
 
      // Call the  axis
-      svg.select('.x.axis')
+      svgAgeStack.select('.x.axis')
             .transition(t)
             .call(x_axis);
 
-      svg.select('.y.axis')
+      svgAgeStack.select('.y.axis')
             .transition(t)
             .call(y_axis);
 
 
-      addLegend(data)
+      addLegendAgeStack(data)
 
   });
 
-    });
-  };
-
-  function addLegend(data){
-
-    // add legend 
-    let legend = svg.selectAll(".legend")
-      .data(data.columns.slice(1))
-      .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function (d, i) {
-        return "translate(0," + i * 20 + ")";
-      })
-      .style("font", "12px sans-serif");
-  
-      legend.append("rect")
-      .attr("x", width + 18)
-      .attr("width", 18)
-      .attr("height", 18)
-      .attr("fill", function(d,i ){
-        return colours[i];
-      });
-  
-      legend.append("text")
-      .attr("x", width + 44)
-      .attr("y", 9)
-      .attr("dy", ".35em")
-      .attr("text-anchor", "start")
-      .text(function (d) {
-        return d;
-      });
-    }
-
-  return showStackedChartTotal;
 
 }
-   
+  function addLegendAgeStack(data){
 
+  // add legend 
+  let legend = svgAgeStack.selectAll(".legend")
+    .data(data.columns.slice(1))
+    .enter().append("g")
+    .attr("class", "legend")
+    .attr("transform", function (d, i) {
+      return "translate(0," + i * 20 + ")";
+    })
+    .style("font", "12px sans-serif");
 
+    legend.append("rect")
+    .attr("x", widthAgeStack + 18)
+    .attr("width", 18)
+    .attr("height", 18)
+    .attr("fill", function(d,i ){
+      return coloursAgeStack[i];
+    });
 
-  
+    legend.append("text")
+    .attr("x", widthAgeStack + 44)
+    .attr("y", 9)
+    .attr("dy", ".35em")
+    .attr("text-anchor", "start")
+    .text(function (d) {
+      return d;
+    });
+  }
 
   function type(d, i, columns) {
     for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
@@ -394,10 +378,8 @@ function showAgeChart(){
 //   percentStack();
 // }, 3000);
 
-// percentStack();
-// setTimeout(function(){
-//   console.log("new one")
-//   showStackedChartTotal();
-// }, 3000);
-
-
+percentStack();
+setTimeout(function(){
+  console.log("new one")
+  showAgeStackChart();
+}, 3000);

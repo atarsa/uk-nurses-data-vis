@@ -14,10 +14,10 @@
     available. <br>
     According to Health Foundation, UK has fewer nurses relative to the population than the OECD average, and it is also
     below many EU countries [2].</p>
-  <div id="vis"></div>
+  <div id="OECD-barchart"></div>
   <h3>NMC Register</h3>
   <p>There is slight increase in a number of nurses and midwives registered to work in the UK [3]</p>
-  <div id="vis2"></div>
+  <div id="nurses-total-stack"></div>
   <div class="explore-total">
     <h5>Explore: </h5>
     <div class="step-btns">
@@ -32,7 +32,7 @@
 
 
     <h4>Initial joiners vs leavers to the NMC register</h4>
-    <div id="vis3"></div>
+    <div id="joiners-leavers-line-chart"></div>
 
 
     <h3>Age profile</h3>
@@ -41,7 +41,7 @@
       <br>
       Increases to the over 50 age bracket could be linked to changes in the wider UK workforce, where the number of
       older workers is growing</p>
-    <div id="vis4"></div>
+    <div id="age-stack-chart"></div>
     <div id="vis5"></div>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -50,17 +50,8 @@
     <script src="joiners.js"></script>
     <script src="age.js"></script>
     <script>
-      let animation1 = visNursesPerHabitat();
-      d3.select("#vis").call(animation1);
-
       showStackedChartTotal();
       autoChangeCircleColor(0);
-
-      let animation3 = showJoinersVsLeavers();
-      d3.select("#vis3").call(animation3);
-
-      let animation4 = showAgeChart();
-      d3.select("#vis4").call(animation4);
     </script>
 </body>
 

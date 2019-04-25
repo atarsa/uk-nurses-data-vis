@@ -1,46 +1,38 @@
 // Code loosly inspired by this article https://www.d3-graph-gallery.com/graph/barplot_stacked_hover.html by Yan Holtz 
     // assessed @14/04/2019
-    // Setup svg using Bostock's margin convention
-    const margin = {
+    // Setup svg using Bostock's marginStackTotal convention
+  const marginStackTotal = {
       top: 40,
       right: 150,
       bottom: 40,
       left: 60
     },
-    width = 560 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+  widthStackTotal = 560 - marginStackTotal.left - marginStackTotal.right,
+  heightStackTotal = 500 - marginStackTotal.top - marginStackTotal.bottom;
 
   // append the svg object to the body of the page
   // appends a 'group' element to 'svg'
-  // moves the 'group' element to the top left margin
-  const svg = d3.select("#vis2")
+  // moves the 'group' element to the top left marginStackTotal
+  const svgStackTotal = d3.select("#nurses-total-stack")
     .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("width", widthStackTotal + marginStackTotal.left + marginStackTotal.right)
+      .attr("height", heightStackTotal + marginStackTotal.top + marginStackTotal.bottom)
     .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + marginStackTotal.left + "," + marginStackTotal.top + ")");
 
-// Set x, y
-  let x = d3.scaleBand()
-      .range([0, width])
-      .padding(0.01);
 
-  let y = d3.scaleLinear()
-      .range([height, 0]);
 
   // Add the x axis
-  svg.append("g")
+  svgStackTotal.append("g")
   .attr("class", "x axis")
-  .attr("transform", `translate(0, ${height})`);
+  .attr("transform", `translate(0, ${heightStackTotal})`);
 
   
 // Add the y axis
-  svg.append("g")
+  svgStackTotal.append("g")
     .attr("class", "y axis")
   
-  let x_axis =d3.axisBottom(x).tickSizeOuter(0);
-  let y_axis = d3.axisLeft(y);
-
+ 
   // create colours array
   const colours = ["#ccebc5", "#b3cde3", "#fbb4ae"];
   
@@ -56,6 +48,18 @@ const keys = ["UK", "Outside the EEA", "EEA"];
 
 
 function showSingleBar(keyIndex){
+  // Set x, y
+  let x = d3.scaleBand()
+  .range([0, widthStackTotal])
+  .padding(0.01);
+
+  let y = d3.scaleLinear()
+  .range([heightStackTotal, 0]);
+
+  let x_axis =d3.axisBottom(x).tickSizeOuter(0);
+  let y_axis = d3.axisLeft(y);
+
+
   d3.csv("nurses_total.csv", type, function (error, data) {
 
     if (error) throw error;
@@ -77,12 +81,12 @@ function showSingleBar(keyIndex){
          return d[keys[keyIndex]]; })]).nice();
 
     // remove stack bars if present
-    svg.selectAll("g.stack")
+    svgStackTotal.selectAll("g.stack")
         //.transition(t)
         .remove();
     
         // show the bars
-    let bars = svg.selectAll(".bar")
+    let bars = svgStackTotal.selectAll(".bar")
     //svg.selectAll(".bar")
         .data(data)
         .attr("fill", colours[keyIndex])
@@ -103,7 +107,7 @@ function showSingleBar(keyIndex){
         .attr('class', 'bar')
         .attr("fill", colours[keyIndex])
         .attr('height', 0)
-        .attr('y', height)
+        .attr('y', heightStackTotal)
         .attr('width', x.bandwidth());
         
 
@@ -113,7 +117,7 @@ function showSingleBar(keyIndex){
         .attr("x", function(d) { return x(d.year); })
         .attr("width", x.bandwidth())
         .attr("y", function(d) { return y(d[keys[keyIndex]]); })
-        .attr("height", function(d) { return height - y(d[keys[keyIndex]])});
+        .attr("height", function(d) { return heightStackTotal - y(d[keys[keyIndex]])});
       
       
       newBars.on("mouseover", mouseOver)
@@ -121,15 +125,15 @@ function showSingleBar(keyIndex){
       .on("mouseout", mouseOut);
 
 
-      svg.select('.x.axis')
+      svgStackTotal.select('.x.axis')
             .transition(t)
             .call(x_axis);
 
-      svg.select('.y.axis')
+      svgStackTotal.select('.y.axis')
             .transition(t)
             .call(y_axis);
       
-      addLegend(data);
+      //addLegend(data);
 
     })
 
@@ -157,6 +161,17 @@ function showSingleBar(keyIndex){
 
 
 function showStackedChartTotal(){
+  // Set x, y
+  let x = d3.scaleBand()
+      .range([0, widthStackTotal])
+      .padding(0.01);
+
+  let y = d3.scaleLinear()
+      .range([heightStackTotal, 0]);
+
+  let x_axis =d3.axisBottom(x).tickSizeOuter(0);
+  let y_axis = d3.axisLeft(y);
+    
   // Get the data
   d3.csv("nurses_total.csv", type, function (error, data) {
 
@@ -194,11 +209,11 @@ function showStackedChartTotal(){
      (data)
 
   // If barchart present remove it 
-   svg.selectAll("rect.bar")
+   svgStackTotal.selectAll("rect.bar")
        .remove()
 
        // show the bars
-   let bars = svg
+   let bars = svgStackTotal
      .selectAll(".stack")
      .data(stackedData)
      .attr("fill", function (d) {
@@ -217,7 +232,7 @@ function showStackedChartTotal(){
       .append("g")
       .attr("class", "stack")
         .attr('height', 0)
-        .attr('y', height)
+        .attr('y', heightStackTotal)
        .attr("fill", function (d) {
        return colour(d.key);
      })
@@ -265,11 +280,11 @@ function showStackedChartTotal(){
 
 
      // Call the  axis
-      svg.select('.x.axis')
+      svgStackTotal.select('.x.axis')
             .transition(t)
             .call(x_axis);
 
-      svg.select('.y.axis')
+      svgStackTotal.select('.y.axis')
             .transition(t)
             .call(y_axis);
 
@@ -292,7 +307,7 @@ function showStackedChartTotal(){
 
     // legendItems.append("span")
     //   .text(function (d) { return d; });
-      addLegend(data)
+     //addLegend(data)
 
   });
 
@@ -301,7 +316,7 @@ function showStackedChartTotal(){
   function addLegend(data){
     // add title legend
     // svg.append("text")
-    // .attr("x", width + 18)
+    // .attr("x", widthStackTotal + 18)
     // .attr("y", -10)
     // .attr("text-anchor", "start")
     // .text("Initial Registration:")
@@ -319,15 +334,15 @@ function showStackedChartTotal(){
     .style("font", "12px sans-serif");
 
     legend.append("rect")
-    .attr("x", width + 18)
-    .attr("width", 18)
-    .attr("height", 18)
+    .attr("x", widthStackTotal + 18)
+    .attr("widthStackTotal", 18)
+    .attr("heightStackTotal", 18)
     .attr("fill", function(d,i ){
       return colours[i];
     });
 
     legend.append("text")
-    .attr("x", width + 44)
+    .attr("x", widthStackTotal + 44)
     .attr("y", 9)
     .attr("dy", ".35em")
     .attr("text-anchor", "start")
@@ -342,7 +357,7 @@ function showStackedChartTotal(){
     return d;
   }
 
- 
+ // TODO: make add legend resubale with selection
 
 // showStackedChartTotal();
 // autoChangeCircleColor(0);
