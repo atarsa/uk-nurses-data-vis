@@ -47,14 +47,23 @@
   </div>
 
 
-  <h3>Age profile</h3>
+  <h3>Age profile of the register</h3>
   <p>The two largest age groups on the register are people aged 41–50 and aged 51-60. Together these two age groups
     account for 56 percent of the total register.
     <br>
     Increases to the over 50 age bracket could be linked to changes in the wider UK workforce, where the number of
     older workers is growing</p>
+
+  <form>
+    <label>
+      <input type="radio" name="mode" value="stacked" checked>
+      Show Stacked</label>
+    <label>
+      <input type="radio" name="mode" value="percent">
+      Show Percent</label>
+  </form>
   <div id="age-stack-chart"></div>
-  <div id="vis5"></div>
+
 
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="OECD_barchart.js"> </script>
