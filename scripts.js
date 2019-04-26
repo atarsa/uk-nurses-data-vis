@@ -86,8 +86,8 @@ function showSingleBar(keyIndex){
         .remove();
     
         // show the bars
-    let bars = svgStackTotal.selectAll(".bar")
-    //svg.selectAll(".bar")
+    let bars = svgStackTotal
+        .selectAll(".bar")
         .data(data)
         .attr("fill", colours[keyIndex])
         .on("mouseover", mouseOver)
@@ -95,20 +95,20 @@ function showSingleBar(keyIndex){
         .on("mouseout", mouseOut);
 
     // exit
-      bars
-        .enter()
-        .remove();
+    bars
+      .enter()
+      .remove();
     
-      // enter
+    // enter
 
-      let newBars = bars
-        .enter()
-        .append("rect")
-        .attr('class', 'bar')
-        .attr("fill", colours[keyIndex])
-        .attr('height', 0)
-        .attr('y', heightStackTotal)
-        .attr('width', x.bandwidth());
+    let newBars = bars
+      .enter()
+      .append("rect")
+      .attr('class', 'bar')
+      .attr("fill", colours[keyIndex])
+      .attr('height', 0)
+      .attr('y', heightStackTotal)
+      .attr('width', x.bandwidth());
         
 
       // update
@@ -365,11 +365,11 @@ function showStackedChartTotal(){
 
 // ============= HANDLE VIS STEPS ==========
 // get total nurses visulisation
-const exploreTotalBtnDiv = document.querySelector(".step-btns");
-const explanationDiv = document.querySelector(".explanation");
+const exploreTotalBtnDiv = document.querySelector(".explore-total .step-btns");
+const explanationDiv = document.querySelector(".explore-total .explanation");
 
-const backBtn = document.querySelector(".step-back");
-const nextBtn = document.querySelector(".step-next");
+const backBtnTotal = document.querySelector(".explore-total .step-back");
+const nextBtnTotal = document.querySelector(".explore-total .step-next");
 
 let currentDiv = 0;
 
@@ -378,45 +378,25 @@ exploreTotalBtnDiv.addEventListener("click", function(e){
   switch (e.target.id ){
     case "stack-total":
       showNursesTotal(e);
-      // changeCircleColorOnClick(e);
-      // showStackedChartTotal();
-      // explanationDiv.innerHTML = `<h4> Total number of Nurses And Midwives</h4>
-      // <p>some more info here</p>`;
-      // currentDiv = 0;
-       break; 
+      break; 
     
     case "bar-uk":
       showNursesUK(e);
-      // changeCircleColorOnClick(e);
-      // showSingleBar(0);
-      // explanationDiv.innerHTML = `<h4>  Number of Nurses And Midwives with initial registartion in UK</h4>
-      // <p>some more info here</p>`
-      // currentDiv = 1;
       break;
 
     case "bar-neea":
       showNursesNEEA(e)
-      // changeCircleColorOnClick(e);
-      // showSingleBar(1);
-      // explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion outside EEA</h4>
-      // <p>some more info here</p>`;
-      // currentDiv = 2;
       break;
 
     case "bar-eea":
       showNursesEEA(e);
-      // changeCircleColorOnClick(e);
-      // showSingleBar(2);
-      // explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion in EEA</h4>
-      // <p>some more info here</p>`;
-      // currentDiv = 3;
       break;
   }
     
 })
 
-backBtn.addEventListener("click", handleBackNextBtn);
-nextBtn.addEventListener("click", handleBackNextBtn);
+backBtnTotal.addEventListener("click", handleBackNextBtn);
+nextBtnTotal.addEventListener("click", handleBackNextBtn);
 
 function handleBackNextBtn(e){
   console.log(currentDiv);
@@ -438,41 +418,21 @@ function handleBackNextBtn(e){
     case 0:
       showNursesTotal(e);
       autoChangeCircleColor(0);
-      // changeCircleColorOnClick(e);
-      // showStackedChartTotal();
-      // explanationDiv.innerHTML = `<h4> Total number of Nurses And Midwives</h4>
-      // <p>some more info here</p>`;
-      // currentDiv = 0;
-       break; 
+      break; 
     
     case 1:
       showNursesUK(e);
       autoChangeCircleColor(1);
-      // changeCircleColorOnClick(e);
-      // showSingleBar(0);
-      // explanationDiv.innerHTML = `<h4>  Number of Nurses And Midwives with initial registartion in UK</h4>
-      // <p>some more info here</p>`
-      // currentDiv = 1;
       break;
 
     case 2:
       showNursesNEEA(e)
       autoChangeCircleColor(2);
-      // changeCircleColorOnClick(e);
-      // showSingleBar(1);
-      // explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion outside EEA</h4>
-      // <p>some more info here</p>`;
-      // currentDiv = 2;
       break;
 
     case 3:
       showNursesEEA(e);
       autoChangeCircleColor(3);
-      // changeCircleColorOnClick(e);
-      // showSingleBar(2);
-      // explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion in EEA</h4>
-      // <p>some more info here</p>`;
-      // currentDiv = 3;
       break;
  
 
@@ -522,7 +482,7 @@ function changeCircleColorOnClick(e){
 }
 
 function autoChangeCircleColor(circle_id){
-  console.log("change color: ", circle_id)
+  //console.log("change color: ", circle_id)
   const circles = document.querySelectorAll(".circle");
  
   for (let i = 0; i < circles.length; i++){

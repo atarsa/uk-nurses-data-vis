@@ -56,17 +56,17 @@ body {
 }
 
 .joiners {
-  stroke: green;
+  stroke: #66c2a5;
 }
 
 .leavers {
-  stroke: red;
+  stroke: #1f78b4;
 }
 
 
 .axisTitle {
   fill: none;
-  stroke: black;
+  stroke: rgb(100, 98, 98);
   shape-rendering: crispEdges;
 }
 
@@ -82,15 +82,4 @@ div.tooltip {
   border: 0px;
   border-radius: 3px;
   pointer-events: none;
-}
-
-
-.grid line {
-  stroke: lightgrey;
-  stroke-opacity: 0.7;
-  shape-rendering: crispEdges;
-}
-
-.grid path {
-  stroke-width: 0;
 }

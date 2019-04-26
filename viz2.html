@@ -22,17 +22,17 @@
   }
 
   .joiners {
-    stroke: green;
+    stroke: #66c2a5;
   }
 
   .leavers {
-    stroke: red;
+    stroke: #1f78b4;
   }
 
 
   .axisTitle {
     fill: none;
-    stroke: black;
+    stroke: rgb(71, 69, 69);
     shape-rendering: crispEdges;
   }
 
@@ -52,9 +52,18 @@
 </style>
 
 <body>
-  <!-- <h3>NMC Register first time joiners and leavers<br> with initial registration in UK</h3> -->
-  <h3>Overall numbers joining and leaving the NMC register 2013-2018 </h3>
-  <div id="vis2"></div>
+  <h4>Initial joiners vs leavers to the NMC register</h4>
+  <div id="joiners-leavers-line-chart"></div>
+  <div class="explore-joiners">
+    <h5>Explore: </h5>
+    <div class="step-btns">
+      <button id="joiners-total">Total</button>
+      <button id="joiners-uk">UK</button>
+      <button id="joiners-neea">Outside EEA</button>
+      <button id="joiners-eea">EEA</button>
+    </div>
+    <div class="explanation"></div>
+  </div>
 
 
   </div>

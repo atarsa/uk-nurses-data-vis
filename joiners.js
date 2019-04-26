@@ -1,4 +1,3 @@
-
 const marginLineChart = {
     top: 40,
     right: 150,
@@ -8,32 +7,30 @@ const marginLineChart = {
   widthLineChart = 550 - marginLineChart.left - marginLineChart.right,
   heightLineChart = 400 - marginLineChart.top - marginLineChart.bottom;
   
-  // parse the date / time
-  var parseTime = d3.timeParse("%Y");
-  // set the ranges
-  var x = d3.scaleTime().range([0, widthLineChart]);
-  var y = d3.scaleLinear().range([heightLineChart, 0]);
-  
-  // let div = d3.select("body").append("div")
-  //     .attr("class", "tooltip")
-  //     .style("opacity", 0);
-
   let svgLineChart = d3.select("#joiners-leavers-line-chart")   .append("svg")
       .attr("width", widthLineChart + marginLineChart.left + marginLineChart.right)
        .attr("height", heightLineChart + marginLineChart.top + marginLineChart.bottom)
      .append("g")
       .attr("transform", "translate(" + marginLineChart.left + "," + marginLineChart.top + ")");
 
- 
-      // define the joiners line
-  let joinersline = d3.line()
-      .x(function(d) { return x(d.year); })
-      .y(function(d) { return y(d.joiners); });
+  // let div = d3.select("body").append("div")
+  //     .attr("class", "tooltip")
+  //     .style("opacity", 0);
+  // parse the date / time
+  var parseTime = d3.timeParse("%Y");
+  // set the ranges
+  var x = d3.scaleTime().range([0, widthLineChart]);
+  var y = d3.scaleLinear().range([heightLineChart, 0]);
 
-      // define the leavers line
-  let leaversline = d3.line()
-      .x(function(d) { return x(d.year); })
-      .y(function(d) { return y(d.leavers); });
+  let xAxis = d3.axisBottom(x);
+  let yAxis = d3.axisLeft(y);
+  
+
+  svgLineChart.append("g")
+   .attr("transform", "translate(0," + heightLineChart + ")")
+   .attr("class", "x axis")
+  svgLineChart.append("g")
+   .attr("class", "y axis")
 
      
   // Get the data
@@ -49,109 +46,217 @@ const marginLineChart = {
         d.joiners_NEEA = +d.joiners_NEEA;
         d.leavers_NEEA = +d.leavers_NEEA;
     
-        d.joiners = d.joiners_UK + d.joiners_EEA + d.joiners_NEEA;
-        d.leavers = d.leavers_UK + d.leavers_EEA + d.leavers_NEEA;
+        d.joiners_TOTAL = d.joiners_UK + d.joiners_EEA + d.joiners_NEEA;
+        d.leavers_TOTAL = d.leavers_UK + d.leavers_EEA + d.leavers_NEEA;
       });
-      
-      
-      // Scale the range of the data
-      x.domain(d3.extent(data, function(d) { return d.year; }));
-      y.domain([d3.min(data, function(d) { 
-        return Math.min(d.leavers,d.joiners);
-      }), d3.max(data, function(d) { 
-        return Math.max(d.leavers,d.joiners);
-      })]).nice();
-      
-    
-      // Add the joiners path
-      svgLineChart.append("path")
-        .data([data])
-        .attr("class", "joiners line")
-        .attr("d", joinersline);
-    
-      // Add the leavers path
-      svgLineChart.append("path")
-        .data([data])
-        .attr("class", "leavers line")
-        .attr("d", leaversline);
-    
-    
-      // Add the dots and tooltips to joiners path
-      svgLineChart.selectAll("dot")
-        .data(data)
-        .enter().append("circle")
-          .attr("r", 4)
-          .attr("cx", function(d){return x(d.year);})
-          .attr("cy", function(d){return y(d.joiners);})
-          .attr("fill", "green")
-          .on("mouseover", function(d) {
-            div.transition()
-              .duration(200)
-              .style("opacity", .9);
-            div.html("Year " + d.year.getFullYear() + ": <br>" + d.joiners)
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY - 28) + "px");
-            })
-          .on("mouseout", function(d) {
-            div.transition()
-              .duration(500)
-              .style("opacity", 0);
-            });
-    
-      // Add the dots and tooltips to leavers path
-      svgLineChart.selectAll("dot")
-        .data(data)
-        .enter().append("circle")
-          .attr("r", 4)
-          .attr("cx", function(d){return x(d.year);})
-          .attr("cy", function(d){return y(d.leavers);})
-          .attr("fill", "red")
-          .on("mouseover", function(d) {
-            div.transition()
-              .duration(200)
-              .style("opacity", .9);
-            div.html("Year " + d.year.getFullYear() + ": <br>" + d.leavers)
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY - 28) + "px");
-            })
-          .on("mouseout", function(d) {
-            div.transition()
-              .duration(500)
-              .style("opacity", 0);
-            });
-      // add x axis
-      svgLineChart.append("g")
-        .attr("transform", "translate(0," + heightLineChart + ")")
-        .call(d3.axisBottom(x));
-    
-      // add y axis
-      svgLineChart.append("g")
-        .call(d3.axisLeft(y))
-        .attr("class", "y axis")
-        .append("text")
-          .attr("class", "y axisTitle")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 6)
-          .attr("dy", ".71em")
-          .style("text-anchor", "end")
-          .text("Number of nurses and midwives");;
-    
-     
-       svgLineChart.append("text")
-        .attr("transform", "translate("+(widthLineChart+5)+","+y(data[data.length-1].leavers)+")")
-        .attr("dy", ".35em")
-        .attr("text-anchor", "start")
-        .style("fill", "red")
-        .text("Leavers");
-    
-      svgLineChart.append("text")
-        .attr("transform", "translate("+(widthLineChart+5)+","+y(data[data.length-1].joiners)+")")
-        .attr("dy", ".35em")
-        .attr("text-anchor", "start")
-        .style("fill", "green")
-        .text("First time joiners");
-      
-        
-  });
+   
 
-  // TODO: refactor to show diffenrt data as on total stack chart
+    draw("joiners_TOTAL", "leavers_TOTAL");
+    
+    function draw(joiners, leavers){
+
+      let t = d3.transition()
+      .duration(1000);
+
+    // define the joiners line
+    let joinersline = d3.line()
+    .x(function(d) { return x(d.year); })
+    .y(function(d) { return y(d[joiners]); });
+
+    // define the leavers line
+    let leaversline = d3.line()
+      .x(function(d) { return x(d.year); })
+      .y(function(d) { return y(d[leavers]); });
+      
+    // Scale the range of the data
+    x.domain(d3.extent(data, function(d) { return d.year; }));
+    y.domain([d3.min(data, function(d) { 
+      return Math.min(d[leavers],d[joiners]);
+    }), d3.max(data, function(d) { 
+      return Math.max(d[leavers],d[joiners]);
+    })]).nice();
+    
+  
+    // Add the joiners path
+    let joinersLines = svgLineChart.selectAll(".joiners.line")
+      .data([data]);
+
+    joinersLines
+      .enter()
+        .append("path")
+        .attr("class", "joiners line")
+      .merge(joinersLines)
+        .transition(t)
+        .attr("d", joinersline);
+
+    joinersLines
+      .exit()
+      .remove();
+
+    // Add the dots and tooltips to joiners path
+    let joinersDots = svgLineChart.selectAll(".joiners.dot")
+      .data(data);
+
+    joinersDots
+        .enter()
+        .append("circle")
+        .attr("class", "joiners dot")
+        .on("mouseover", function(d){
+          div.transition()
+          .duration(200)
+          .style("opacity", .9);
+          div.html("Year " + d.year.getFullYear() + ": <br>" + d[joiners])
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
+        })
+        .on("mouseout", mouseOut)
+
+        .merge(joinersDots)
+          .transition(t)
+          .attr("r", 4)
+          .attr("cx", function(d){return x(d.year);})
+          .attr("cy", function(d){return y(d[joiners]);})
+          .attr("fill", "#66c2a5")
+
+    joinersDots // add tooltip to new dots as well
+        .on("mouseover", function(d){
+          div.transition()
+          .duration(200)
+          .style("opacity", .9);
+          div.html("Year " + d.year.getFullYear() + ": <br>" + d[joiners])
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
+        })
+        .on("mouseout", mouseOut);
+  
+    // Add the leavers path
+    let leaversLines = svgLineChart.selectAll(".leavers.line")
+    .data([data]);
+    
+    leaversLines
+      .enter()
+        .append("path")
+        .attr("class", "leavers line")
+      .merge(leaversLines)
+        .transition(t)
+        .attr("d", leaversline);
+
+    leaversLines
+      .exit()
+      .remove();
+
+    // Add the dots and tooltips to leavers path
+    let leaversDots = svgLineChart.selectAll(".leavers.dot")
+      .data(data);
+
+    leaversDots
+      .enter()
+      .append("circle")
+      .attr("class", "leavers dot")
+      .on("mouseover", function(d){
+        div.transition()
+      .duration(200)
+      .style("opacity", .9);
+      div.html("Year " + d.year.getFullYear() + ": <br>" + d[leavers])
+      .style("left", (d3.event.pageX) + "px")
+      .style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on("mouseout", mouseOut)
+   
+      .merge(leaversDots)
+        .transition(t)
+        .attr("r", 4)
+        .attr("cx", function(d){return x(d.year);})
+        .attr("cy", function(d){return y(d[leavers]);})
+        .attr("fill", "#1f78b4");
+
+    leaversDots // add tooltip to new dots as well
+        .on("mouseover", function(d){
+          div.transition()
+        .duration(200)
+        .style("opacity", .9);
+        div.html("Year " + d.year.getFullYear() + ": <br>" + d[leavers])
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+        })
+        .on("mouseout", mouseOut);
+
+
+    // add y axis
+    svgLineChart.select(".x.axis")
+          .transition(t)
+          .call(xAxis);
+
+    svgLineChart.select(".y.axis")
+          .transition(t)
+          .call(yAxis);
+
+      
+    svgLineChart.selectAll(".label.text")
+      .remove()
+
+
+     svgLineChart.append("text")
+      .transition(t)
+      .attr("transform", "translate("+(widthLineChart+5)+","+y(data[data.length-1][leavers])+")")
+      .attr("class", "label text")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "start")
+      .style("fill", "#1f78b4")
+      .text("Leavers");
+      
+      svgLineChart.append("text")
+        .transition(t)
+        .attr("transform", "translate("+(widthLineChart+5)+","+y(data[data.length-1][joiners])+")")
+        .attr("class", "label text")
+        .attr("dy", ".35em")
+        .attr("text-anchor", "start")
+        .style("fill", "#66c2a5")
+        .text("First time joiners");
+
+      svgLineChart.append("text")
+        .attr("class", "y axisTitle label text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -56)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("Number of nurses and midwives");
+
+    }
+    
+
+    function mouseOut(d){
+      div.transition()
+        .duration(500)
+        .style("opacity", 0);
+    };
+
+    const exploreJoinersBtnDiv = document.querySelector(".explore-joiners .step-btns");
+    const explanationDiv = document.querySelector(".explore-joiners .explanation");
+
+    exploreJoinersBtnDiv.addEventListener("click", function(e){
+  
+      switch (e.target.id ){
+        case "joiners-total":
+          draw("joiners_TOTAL", "leavers_TOTAL");
+          explanationDiv.innerHTML =`<h3> Joiner VS Leavers Total </h3>`;
+          break; 
+        
+        case "joiners-uk":
+          draw("joiners_UK", "leavers_UK")
+          explanationDiv.innerHTML= `<h3> Joiner VS Leavers with initail registration in the UK</h3>`;
+          break;
+    
+        case "joiners-neea":
+          draw("joiners_NEEA", "leavers_NEEA")
+          explanationDiv.innerHTML=`<h3> Joiner VS Leavers with initail registration outside EEA </h3>`;
+          break;
+    
+        case "joiners-eea":
+          draw("joiners_EEA", "leavers_EEA")
+          explanationDiv.innerHTML=`<h3> Joiner VS Leavers with initail registration in EEA </h3>`;
+          break;
+      }
+        
+    })
+  });
