@@ -83,3 +83,14 @@ div.tooltip {
   border-radius: 3px;
   pointer-events: none;
 }
+
+
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  stroke-width: 0;
+}

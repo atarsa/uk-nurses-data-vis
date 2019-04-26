@@ -1,6 +1,5 @@
- 
-const marginBarChart = {
-  top: 40,
+ const marginBarChart = {
+  top: 10,
   right: 150,
   bottom: 40,
   left: 100
@@ -17,7 +16,6 @@ const svgBarChart = d3.select("#OECD-barchart")
     .attr("transform", "translate(" + marginBarChart.left + "," + marginBarChart.top + ")");
 
 // Parse the data
-
 d3.csv("nurses_OECD_2010-2015.csv", function(data){
 
   // add x axis
@@ -31,7 +29,7 @@ d3.csv("nurses_OECD_2010-2015.csv", function(data){
     .selectAll("text")
       .attr("class", "x axis")
       .style("text-anchor", "end");
-
+  
   // add y axis
   let y = d3.scaleBand()
     .range([0, heightBarChart])
@@ -40,10 +38,11 @@ d3.csv("nurses_OECD_2010-2015.csv", function(data){
 
   svgBarChart.append("g")
     .call(d3.axisLeft(y))
-    .attr("class", " y axis");
+    .attr("class", " y axis")
+    
 
+  // svgBarChart.selectAll(".tick line").attr("stroke", "#EBEBEB")
 
-  console.log(y);
   // bars
   svgBarChart.selectAll("bars")
     .data(data)
@@ -54,8 +53,21 @@ d3.csv("nurses_OECD_2010-2015.csv", function(data){
       .attr("width", function(d){return x(d["2015"]); })
       .attr("height",y.bandwidth())
       .style("fill", function(d){
-        if (d.Country == "United Kingdom"){ return "red"}
-        else if (d.Country == "OECD35") {return "green"}
-        else{ return "grey"}})
+        if (d.Country == "United Kingdom"){ return "#b2df8a"}
+        else if (d.Country == "OECD35") {return "#1f78b4"}
+        else{ return "#a6cee3"}})
+      .on("mouseover", function(d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
+          div.html(d.Country + ":<br>" + d["2015"])
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+          })
+      .on("mouseout", function(d) {
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+          });
       
 })
