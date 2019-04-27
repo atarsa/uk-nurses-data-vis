@@ -4,64 +4,61 @@ const marginLineChart = {
     bottom: 40,
     left: 60
   },
-  widthLineChart = 550 - marginLineChart.left - marginLineChart.right,
-  heightLineChart = 400 - marginLineChart.top - marginLineChart.bottom;
+widthLineChart = 550 - marginLineChart.left - marginLineChart.right,
+heightLineChart = 400 - marginLineChart.top - marginLineChart.bottom;
   
-  let svgLineChart = d3.select("#joiners-leavers-line-chart")   .append("svg")
-      .attr("width", widthLineChart + marginLineChart.left + marginLineChart.right)
-       .attr("height", heightLineChart + marginLineChart.top + marginLineChart.bottom)
-     .append("g")
-      .attr("transform", "translate(" + marginLineChart.left + "," + marginLineChart.top + ")");
+let svgLineChart = d3.select("#joiners-leavers-line-chart")   .append("svg")
+  .attr("width", widthLineChart + marginLineChart.left + marginLineChart.right)
+  .attr("height", heightLineChart + marginLineChart.top + marginLineChart.bottom)
+  .append("g")
+    .attr("transform", "translate(" + marginLineChart.left + "," + marginLineChart.top + ")");
 
-  // let div = d3.select("body").append("div")
-  //     .attr("class", "tooltip")
-  //     .style("opacity", 0);
-  // parse the date / time
-  var parseTime = d3.timeParse("%Y");
+// parse the date / time
+let parseTime = d3.timeParse("%Y");
   // set the ranges
-  var x = d3.scaleTime().range([0, widthLineChart]);
-  var y = d3.scaleLinear().range([heightLineChart, 0]);
+let x = d3.scaleTime().range([0, widthLineChart]);
+let y = d3.scaleLinear().range([heightLineChart, 0]);
 
-  let xAxis = d3.axisBottom(x);
-  let yAxis = d3.axisLeft(y);
+let xAxis = d3.axisBottom(x);
+let yAxis = d3.axisLeft(y);
   
 
-  svgLineChart.append("g")
-   .attr("transform", "translate(0," + heightLineChart + ")")
-   .attr("class", "x axis")
-  svgLineChart.append("g")
-   .attr("class", "y axis")
+svgLineChart.append("g")
+  .attr("transform", "translate(0," + heightLineChart + ")")
+  .attr("class", "x axis")
+svgLineChart.append("g")
+  .attr("class", "y axis")
 
-     
-  // Get the data
-  d3.csv("joiners_vs_leavers.csv", function(error, data){
+  
+// Get the data
+d3.csv("data/joiners_vs_leavers.csv", function(error, data){
     
-       // format the data
-       data.forEach(function(d) {
-        d.year = parseTime(d.year);
-        d.joiners_UK = +d.joiners_UK;
-        d.leavers_UK = +d.leavers_UK;
-        d.joiners_EEA = +d.joiners_EEA;
-        d.leavers_EEA = +d.leavers_EEA;
-        d.joiners_NEEA = +d.joiners_NEEA;
-        d.leavers_NEEA = +d.leavers_NEEA;
+  // format the data
+  data.forEach(function(d) {
+    d.year = parseTime(d.year);
+    d.joiners_UK = +d.joiners_UK;
+    d.leavers_UK = +d.leavers_UK;
+    d.joiners_EEA = +d.joiners_EEA;
+    d.leavers_EEA = +d.leavers_EEA;
+    d.joiners_NEEA = +d.joiners_NEEA;
+    d.leavers_NEEA = +d.leavers_NEEA;
     
-        d.joiners_TOTAL = d.joiners_UK + d.joiners_EEA + d.joiners_NEEA;
-        d.leavers_TOTAL = d.leavers_UK + d.leavers_EEA + d.leavers_NEEA;
-      });
+    d.joiners_TOTAL = d.joiners_UK + d.joiners_EEA + d.joiners_NEEA;
+    d.leavers_TOTAL = d.leavers_UK + d.leavers_EEA + d.leavers_NEEA;
+  });
    
-
-    draw("joiners_TOTAL", "leavers_TOTAL");
+  draw("joiners_TOTAL", "leavers_TOTAL");
     
-    function draw(joiners, leavers){
 
-      let t = d3.transition()
+  function draw(joiners, leavers){
+
+    let t = d3.transition()
       .duration(1000);
 
     // define the joiners line
     let joinersline = d3.line()
-    .x(function(d) { return x(d.year); })
-    .y(function(d) { return y(d[joiners]); });
+      .x(function(d) { return x(d.year); })
+      .y(function(d) { return y(d[joiners]); });
 
     // define the leavers line
     let leaversline = d3.line()
@@ -76,7 +73,6 @@ const marginLineChart = {
       return Math.max(d[leavers],d[joiners]);
     })]).nice();
     
-  
     // Add the joiners path
     let joinersLines = svgLineChart.selectAll(".joiners.line")
       .data([data]);
@@ -102,12 +98,13 @@ const marginLineChart = {
         .append("circle")
         .attr("class", "joiners dot")
         .on("mouseover", function(d){
-          div.transition()
+          tooltip.transition()
           .duration(200)
           .style("opacity", .9);
-          div.html("Year " + d.year.getFullYear() + ": <br>" + d[joiners])
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
+
+          tooltip.html("<b>Year " + d.year.getFullYear() + "</b>: <br>" + d[joiners])
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
         })
         .on("mouseout", mouseOut)
 
@@ -120,12 +117,13 @@ const marginLineChart = {
 
     joinersDots // add tooltip to new dots as well
         .on("mouseover", function(d){
-          div.transition()
+          tooltip.transition()
           .duration(200)
           .style("opacity", .9);
-          div.html("Year " + d.year.getFullYear() + ": <br>" + d[joiners])
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
+
+          tooltip.html("<b>Year " + d.year.getFullYear() + "</b>: <br>" + d[joiners])
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
         })
         .on("mouseout", mouseOut);
   
@@ -154,12 +152,13 @@ const marginLineChart = {
       .append("circle")
       .attr("class", "leavers dot")
       .on("mouseover", function(d){
-        div.transition()
-      .duration(200)
-      .style("opacity", .9);
-      div.html("Year " + d.year.getFullYear() + ": <br>" + d[leavers])
-      .style("left", (d3.event.pageX) + "px")
-      .style("top", (d3.event.pageY - 28) + "px");
+        tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+
+        tooltip.html("<b>Year " + d.year.getFullYear() + "</b>: <br>" + d[leavers])
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
       })
       .on("mouseout", mouseOut)
    
@@ -172,31 +171,30 @@ const marginLineChart = {
 
     leaversDots // add tooltip to new dots as well
         .on("mouseover", function(d){
-          div.transition()
-        .duration(200)
-        .style("opacity", .9);
-        div.html("Year " + d.year.getFullYear() + ": <br>" + d[leavers])
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 28) + "px");
+          tooltip.transition()
+            .duration(200)
+            .style("opacity", .9);
+
+          tooltip.html("<b>Year " + d.year.getFullYear() + "</b>: <br>" + d[leavers])
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
         })
         .on("mouseout", mouseOut);
 
 
     // add y axis
     svgLineChart.select(".x.axis")
-          .transition(t)
-          .call(xAxis);
+      .transition(t)
+      .call(xAxis);
 
     svgLineChart.select(".y.axis")
-          .transition(t)
-          .call(yAxis);
-
+      .transition(t)
+      .call(yAxis);
       
     svgLineChart.selectAll(".label.text")
       .remove()
 
-
-     svgLineChart.append("text")
+    svgLineChart.append("text")
       .transition(t)
       .attr("transform", "translate("+(widthLineChart+5)+","+y(data[data.length-1][leavers])+")")
       .attr("class", "label text")
@@ -205,35 +203,37 @@ const marginLineChart = {
       .style("fill", "#1f78b4")
       .text("Leavers");
       
-      svgLineChart.append("text")
-        .transition(t)
-        .attr("transform", "translate("+(widthLineChart+5)+","+y(data[data.length-1][joiners])+")")
-        .attr("class", "label text")
-        .attr("dy", ".35em")
-        .attr("text-anchor", "start")
-        .style("fill", "#66c2a5")
-        .text("First time joiners");
+    svgLineChart.append("text")
+      .transition(t)
+      .attr("transform", "translate("+(widthLineChart+5)+","+y(data[data.length-1][joiners])+")")
+      .attr("class", "label text")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "start")
+      .style("fill", "#66c2a5")
+      .text("First time joiners");
 
-      svgLineChart.append("text")
-        .attr("class", "y axisTitle label text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -56)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Number of nurses and midwives");
+    svgLineChart.append("text")
+      .attr("class", "y axisTitle label text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -56)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Number of nurses and midwives");
 
     }
     
 
     function mouseOut(d){
-      div.transition()
+      tooltip.transition()
         .duration(500)
         .style("opacity", 0);
     };
 
+
     const exploreJoinersBtnDiv = document.querySelector(".explore-joiners .step-btns");
     const explanationDiv = document.querySelector(".explore-joiners .explanation");
 
+    // handle buttons to change visualisation and according explanation
     exploreJoinersBtnDiv.addEventListener("click", function(e){
   
       switch (e.target.id ){
@@ -241,8 +241,8 @@ const marginLineChart = {
           draw("joiners_TOTAL", "leavers_TOTAL");
           explanationDiv.innerHTML =`<h4> Total number of joiners and leavers.</h4>
           <p>The total number of first joiners continues to fall, with the lowest number since 2014.
-        <br>
-        For the second succeeding year, the number of leavers is larger than the number of joiners. However, in comparison to 2017, the number of leavers decreased by 5577 in 2018.`;
+          <br>
+          For the second succeeding year, the number of leavers is larger than the number of joiners. However, in comparison to 2017, the number of leavers decreased by 5577 in 2018.`;
           break; 
         
         case "joiners-uk":
@@ -266,4 +266,4 @@ const marginLineChart = {
       }
         
     })
-  });
+});

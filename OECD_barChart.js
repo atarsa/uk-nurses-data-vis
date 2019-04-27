@@ -16,7 +16,7 @@ const svgBarChart = d3.select("#OECD-barchart")
     .attr("transform", "translate(" + marginBarChart.left + "," + marginBarChart.top + ")");
 
 // Parse the data
-d3.csv("nurses_OECD_2010-2015.csv", function(data){
+d3.csv("data/nurses_OECD_2010-2015.csv", function(data){
 
   // add x axis
   let x = d3.scaleLinear()
@@ -41,8 +41,6 @@ d3.csv("nurses_OECD_2010-2015.csv", function(data){
     .attr("class", " y axis")
     
 
-  // svgBarChart.selectAll(".tick line").attr("stroke", "#EBEBEB")
-
   // bars
   svgBarChart.selectAll("bars")
     .data(data)
@@ -57,17 +55,17 @@ d3.csv("nurses_OECD_2010-2015.csv", function(data){
         else if (d.Country == "OECD35") {return "#1f78b4"}
         else{ return "#a6cee3"}})
       .on("mouseover", function(d) {
-          div.transition()
+          tooltip.transition()
             .duration(200)
             .style("opacity", .9);
-          div.html(d.Country + ":<br>" + d["2015"])
+          tooltip.html("<b>" + d.Country + "</b>:<br>" + d["2015"] )
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY - 28) + "px");
           })
       .on("mouseout", function(d) {
-          div.transition()
+          tooltip.transition()
             .duration(500)
             .style("opacity", 0);
           });
-      
+    
 })
