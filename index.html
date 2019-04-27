@@ -5,111 +5,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Is there nurse shortage in the UK?</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
   <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
-  <h2>Is there a nurses shortage in the UK?</h2>
-  <p>According to Royal College of Nursing there are approximately 40000 registered nurses vacancies in England [1].
-    Data for other UK nations is not
-    available. <br>
-    Data from Health Foundation shows that UK has fewer nurses relative to the population than the OECD average, and it
-    is also
-    below many EU countries [2].</p>
-  <h3>Practising nurses per 1 000 population in 2015 (or nearest year) </h3>
-  <div id="OECD-barchart"></div>
-  <h3>NMC Register</h3>
-  <p>There is no live data on how many nurses are currently working in the UK however every nurse (and midwife) need to
-    be registered in the Nurses and Midwives Council (NMC) to have a right to practice.
-    <br>Every Year NMC releases the report showing the size of the register, the number of joiners and leavers during
-    that time and a breakdown of the register by age and field of practice.
-    <br>
-    This does not mean that all registrants are currently working as registered nurses. </p>
+  <div class="container">
+
+    <h2>Is there a nurses shortage in the UK?</h2>
+    <p>According to Royal College of Nursing there are approximately 40000 registered nurses vacancies in England [1].
+      Data for other UK nations is not
+      available. <br>
+      Data from Health Foundation shows that UK has fewer nurses relative to the population than the OECD average, and
+      it
+      is also
+      below many EU countries [2].</p>
+    <h4>Practising nurses per 1 000 population in 2015 (or nearest year) </h4>
+    <div id="OECD-barchart"></div>
+    <h3>NMC Register</h3>
+    <p>There is no live data on how many nurses are currently working in the UK however every nurse (and midwife) need
+      to
+      be registered in the Nurses and Midwives Council (NMC) to have a right to practice.
+      <br>Every Year NMC releases the report showing the size of the register, the number of joiners and leavers during
+      that time and a breakdown of the register by age and field of practice.
+
+      This does not mean that all registrants are currently working as registered nurses. </p>
 
 
-  <div class="explore-total">
-    <div class="explanation">
-      <h4>Total number of Nurses And Midwives
-      </h4>
-      <p>There is a slight increase in a number of nurses and midwives registered to work in the UK, with a total of
-        693618 people in 2018 compared with 689738 people in 2017. </p>
+    <div class="explore-total">
+      <div id="nurses-total-stack"></div>
+      <div class="explore">
+
+        <h5>Explore: </h5>
+        <div class="step-btns">
+          <div class="circle" id="stack-total"></div>
+          <div class="circle" id="bar-uk"></div>
+          <div class="circle" id="bar-neea"></div>
+          <div class="circle" id="bar-eea"></div>
+          <button class="step-btn step-back">Back</button>
+          <button class="step-btn step-next">Next</button>
+        </div>
+        <div class="explanation">
+          <h4>Total number of Nurses And Midwives
+          </h4>
+          <p>There is a slight increase in a number of nurses and midwives registered to work in the UK, with a total of
+            693618 people in 2018 compared with 689738 people in 2017. </p>
+        </div>
+
+      </div>
+
     </div>
-    <h5>Explore: </h5>
-    <div class="step-btns">
-      <div class="circle" id="stack-total"></div>
-      <div class="circle" id="bar-uk"></div>
-      <div class="circle" id="bar-neea"></div>
-      <div class="circle" id="bar-eea"></div>
-      <button class="step-btn step-back">Back</button>
-      <button class="step-btn step-next">Next</button>
+
+
+    <h3>Initial joiners and leavers to the NMC register</h3>
+
+    <div class="explore-joiners">
+      <div id="joiners-leavers-line-chart"></div>
+      <div class="explore">
+        <h5>Explore: </h5>
+        <div class="step-btns">
+          <button id="joiners-total">Total</button>
+          <button id="joiners-uk">UK</button>
+          <button id="joiners-neea">Outside EEA</button>
+          <button id="joiners-eea">EEA</button>
+        </div>
+        <div class="explanation">
+          <h4>Total number of joiners and leavers.</h4>
+          <p>The total number of first joiners continues to fall, with the lowest number since 2014.
+            <br>
+            For the second succeeding year, the number of leavers is larger than the number of joiners. However, in
+            comparison to 2017, the number of leavers decreased by 5577 in 2018.
+          </p>
+        </div>
+      </div>
+
     </div>
-  </div>
-  <div id="nurses-total-stack"></div>
 
-  <h3>Initial joiners and leavers to the NMC register</h3>
 
-  <div class="explore-joiners">
-    <div class="explanation">
-      <h4>Total number of joiners and leavers.</h4>
-      <p>The total number of first joiners continues to fall, with the lowest number since 2014.
-        <br>
-        For the second succeeding year, the number of leavers is larger than the number of joiners. However, in
-        comparison to 2017, the number of leavers decreased by 5577 in 2018.
+
+    <h3>Age profile of the register</h3>
+    <div class="explore-age">
+
+      <div class="explore">
+
+        <form>
+          <label>
+            <input type="radio" name="mode" value="stacked" checked>
+            Show Stacked</label>
+          <label>
+            <input type="radio" name="mode" value="percent">
+            Show Percent</label>
+        </form>
+
+        <p>The two largest age groups on the register are people aged 41–50 and aged 51-60. Together these two age
+          groups
+          account for 55 percent of the total register.
+          <br>
+          Increases to the over 50 age bracket could be linked to changes in the wider UK workforce, where the number of
+          older workers is growing.</p>
+
+      </div>
+
+      <div id="age-stack-chart"></div>
+
+    </div>
+
+
+
+
+
+    <div>
+      <h3>Summary</h3>
+      <p>
+        Although the total number of nurses increased slightly, in the last two years the number of nurses flowing out
+        of
+        the
+        system exceeded those coming into the system. Also, because of Brexit and uncertainty around it, the number of
+        nurses coming from the EU decreased dramatically.
+        At the same time, due to the growing elderly population and a rising number of people with
+        multiple long-term illnesses the demand for care is increasing.
       </p>
+
     </div>
+    <h5>References</h5>
+    <small>1. Safe and Effective Staffing: the Real Picture, RCN, 21.07.2017,
+      https://www.rcn.org.uk/professional-development/publications/pub-006195 accessedd 11.04.2019 </small>
+    <small>
+      2.Health Foundation, Rising pressure: the NHS workforce challenge, October 2017; pp25–27
+    </small>
+    <small>NMC Data Source: https://www.nmc.org.uk/about-us/reports-and-accounts/registration-statistics/</small>
 
-    <h5>Explore: </h5>
-    <div class="step-btns">
-      <button id="joiners-total">Total</button>
-      <button id="joiners-uk">UK</button>
-      <button id="joiners-neea">Outside EEA</button>
-      <button id="joiners-eea">EEA</button>
-    </div>
+
   </div>
-  <div id="joiners-leavers-line-chart"></div>
-
-
-  <h3>Age profile of the register</h3>
-  <p>The two largest age groups on the register are people aged 41–50 and aged 51-60. Together these two age groups
-    account for 55 percent of the total register.
-    <br>
-    Increases to the over 50 age bracket could be linked to changes in the wider UK workforce, where the number of
-    older workers is growing.</p>
-
-  <form>
-    <label>
-      <input type="radio" name="mode" value="stacked" checked>
-      Show Stacked</label>
-    <label>
-      <input type="radio" name="mode" value="percent">
-      Show Percent</label>
-  </form>
-  <div id="age-stack-chart"></div>
-
-  <div>
-    <h4>Summary</h4>
-    Although the total number of nurses increased slightly, in the last two years the number of nurses flowing out of
-    the
-    system exceeded those coming into the system. Also, because of Brexit and uncertainty around it, the number of
-    nurses coming from the EU decreased dramatically.
-    At the same time, due to the growing elderly population and a rising number of people with
-    multiple long-term illnesses the demand for care is increasing.
-  </div>
-  <h5>References</h5>
-  <small>1. Safe and Effective Staffing: the Real Picture, RCN, 21.07.2017,
-    https://www.rcn.org.uk/professional-development/publications/pub-006195 accessedd 11.04.2019 </small>
-  <small>
-    2.Health Foundation, Rising pressure: the NHS workforce challenge, October 2017; pp25–27
-  </small>
-  <small>NMC Data Source: https://www.nmc.org.uk/about-us/reports-and-accounts/registration-statistics/</small>
+  <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
+  <!-- Load all visualisations -->
   <script src="OECD_barchart.js"> </script>
   <script src="totalStack.js"> </script>
   <script src="joiners.js"></script>
   <script src="age.js"></script>
-  <script>
 
-  </script>
 </body>
 
 </html>

@@ -1,3 +1,195 @@
+/* === CSS RESET ==== */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+
+/* === structure ==== */
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+
+}
+
+.container {
+  width: 90vw;
+  max-width: 1200px;
+  margin: 4em auto;
+  background: lavenderblush;
+
+}
+
+/* FONT */
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Open sans', sans-serif;
+}
+
+h2 {
+  font-size: 2em;
+  padding: 1.2em;
+}
+
+h3 {
+  font-size: 1.5em;
+  padding: 1em;
+}
+
+h4 {
+  font-size: 1.3em;
+  padding: .8em;
+}
+
+h5 {
+  font-size: 1.2em;
+  padding: .8em;
+}
+
+p {
+  line-height: 1.8em;
+  padding: 0.8em;
+}
+
+/* GRID */
+/* .explore-total,
+.explore-joiners {
+  width: 50%;
+  float: right;
+} */
+.explore-total,
+.explore-joiners,
+.explore-age {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+}
+
+.explore-age .explore {
+  align-self: space-between;
+}
+
+/* .explore form {
+  align-self: start;
+} */
+
+
 .circle {
   display: inline-block;
   width: 12px;
@@ -12,9 +204,7 @@
   background-color: grey;
 }
 
-h3 {
-  text-align: center;
-}
+
 
 .chart text {
   fill: white;
@@ -22,18 +212,6 @@ h3 {
   text-anchor: end;
 }
 
-div.tooltip {
-  position: absolute;
-  text-align: center;
-  vertical-align: middle;
-
-  padding: 3px;
-  font: 12px sans-serif;
-  background: rgb(209, 220, 235);
-  border: 0px;
-  border-radius: 5px;
-  pointer-events: none;
-}
 
 .rect {
   display: inline-block;
@@ -44,10 +222,7 @@ div.tooltip {
 
 }
 
-body {
-  font: 12px sans-serif;
 
-}
 
 .line {
   fill: none;

@@ -3,7 +3,7 @@
     // Setup svg using Bostock's marginStackTotal convention
 const marginStackTotal = {
       top: 40,
-      right: 150,
+      right: 160,
       bottom: 40,
       left: 60
     },
