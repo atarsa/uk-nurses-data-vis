@@ -441,32 +441,35 @@ function handleBackNextBtn(e){
 function showNursesTotal(e){
   changeCircleColorOnClick(e);
       showStackedChartTotal();
-      explanationDiv.innerHTML = `<h4> Total number of Nurses And Midwives</h4>
-      <p>some more info here</p>`;
+      explanationDiv.innerHTML = `<h4>Total number of nurses and midwives</h4>
+      <p>There is slight increase in a number of nurses and midwives registered to work in the UK, with the total of
+      693618 people in 2018 compared with 689738 people in 2017.</p>`;
       currentDiv = 0;
 }
 
 function showNursesUK(e){
   changeCircleColorOnClick(e);
       showSingleBar(0);
-      explanationDiv.innerHTML = `<h4>  Number of Nurses And Midwives with initial registartion in UK</h4>
-      <p>some more info here</p>`
+      explanationDiv.innerHTML = `<h4>Nurses and midwives with initial registration in the UK</h4>
+      <p>In 2018 there is an increase of 3457 people compared to 2017. However, the total number is still lower than number of registrants in 2014 and 2015. 
+      </p>`
       currentDiv = 1;
 }
 
 function showNursesNEEA(e){
   changeCircleColorOnClick(e);
   showSingleBar(1);
-  explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion outside EEA</h4>
-  <p>some more info here</p>`;
+  explanationDiv.innerHTML = `<h4>Nurses and midwives with initial registartion outside EEA</h4>
+  <p>For the first time since 2013, the number of registrants with initial registration outside EEA, exceeded 70000, with the increase of 2808 compared to the previous year.</p>`;
   currentDiv = 2;
 }
 
 function showNursesEEA(e){
   changeCircleColorOnClick(e);
       showSingleBar(2);
-      explanationDiv.innerHTML = `<h4> Number of Nurses And Midwives with initial registartion in EEA</h4>
-      <p>some more info here</p>`;
+      explanationDiv.innerHTML = `<h4>Nurses and midwives with initial registration in EEA</h4>
+      <p>The number of nurses and midwives with initial registration in EEA continues to fall, with the total 33874 in 2018 compared to the peak of 38992 in 2016.
+      </p>`;
       currentDiv = 3;
 }
 

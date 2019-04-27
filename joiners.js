@@ -239,22 +239,29 @@ const marginLineChart = {
       switch (e.target.id ){
         case "joiners-total":
           draw("joiners_TOTAL", "leavers_TOTAL");
-          explanationDiv.innerHTML =`<h3> Joiner VS Leavers Total </h3>`;
+          explanationDiv.innerHTML =`<h4> Total number of joiners and leavers.</h4>
+          <p>The total number of first joiners continues to fall, with the lowest number since 2014.
+        <br>
+        For the second succeeding year, the number of leavers is larger than the number of joiners. However, in comparison to 2017, the number of leavers decreased by 5577 in 2018.`;
           break; 
         
         case "joiners-uk":
           draw("joiners_UK", "leavers_UK")
-          explanationDiv.innerHTML= `<h3> Joiner VS Leavers with initail registration in the UK</h3>`;
+          explanationDiv.innerHTML= `<h4> Joiners and leavers with initial registration in the UK</h4>
+          <p>The number of leavers continues to be higher than the first time joiners. However, the number of leavers in 2018 is lower than in 2017.  </p>`;
           break;
     
         case "joiners-neea":
           draw("joiners_NEEA", "leavers_NEEA")
-          explanationDiv.innerHTML=`<h3> Joiner VS Leavers with initail registration outside EEA </h3>`;
+          explanationDiv.innerHTML=`<h4> Joiners and leavers with initial registration outside EEA </h4>
+          <p>The group of people with initial registration outside the EEA is the only one where the number of first time joiners is higher than the number of leavers, with the peak in 2018.</p>`;
           break;
     
         case "joiners-eea":
           draw("joiners_EEA", "leavers_EEA")
-          explanationDiv.innerHTML=`<h3> Joiner VS Leavers with initail registration in EEA </h3>`;
+          explanationDiv.innerHTML=`<h4> Joiners and leavers with initial registration in EEA </h4>
+          <p>The number of first time joiners with the initial registration in the EEA decreased dramatically since 2016, from the number of 10178 joiners to only 888 in 2018.<br>
+          Also, the number of leavers continues to grow, with the peak of 4068 leavers in 2017.</p>`;
           break;
       }
         
