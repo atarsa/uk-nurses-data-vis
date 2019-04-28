@@ -13,13 +13,12 @@
   <div class="container">
 
     <h2>Is there a nurses shortage in the UK?</h2>
-    <p>According to Royal College of Nursing there are approximately 40000 registered nurses vacancies in England [1].
+    <p>According to Royal College of Nursing there are approximately 40000 registered nurses vacancies only in England
+      <span class="sup"><a href="#ref1">1</a></span>.
       Data for other UK nations is not
       available. <br>
       Data from Health Foundation shows that UK has fewer nurses relative to the population than the OECD average, and
-      it
-      is also
-      below many EU countries [2].</p>
+      it is also below many EU countries <span class="sup"><a href="#ref2">2</a></span>.</p>
     <h4>Practising nurses per 1 000 population in 2015 (or nearest year) </h4>
     <div id="OECD-barchart"></div>
     <h3>NMC Register</h3>
@@ -28,14 +27,10 @@
       be registered in the Nurses and Midwives Council (NMC) to have a right to practice.
       <br>Every Year NMC releases the report showing the size of the register, the number of joiners and leavers during
       that time and a breakdown of the register by age and field of practice.
-
       This does not mean that all registrants are currently working as registered nurses. </p>
 
-
     <div class="explore-total">
-      <div id="nurses-total-stack"></div>
       <div class="explore">
-
         <h5>Explore: </h5>
         <div class="step-btns">
           <div class="circle" id="stack-total"></div>
@@ -52,10 +47,9 @@
             693618 people in 2018 compared with 689738 people in 2017. </p>
         </div>
 
-      </div>
-
-    </div>
-
+      </div> <!-- end of .explore -->
+      <div id="nurses-total-stack"></div>
+    </div> <!-- end of .explore-total -->
 
     <h3>Initial joiners and leavers to the NMC register</h3>
 
@@ -77,16 +71,18 @@
             comparison to 2017, the number of leavers decreased by 5577 in 2018.
           </p>
         </div>
-      </div>
-
-    </div>
-
-
+      </div><!-- end of .explore-->
+    </div> <!-- end of .explore-joiners -->
 
     <h3>Age profile of the register</h3>
     <div class="explore-age">
-
       <div class="explore">
+        <p>The two largest age groups on the register are people aged 41–50 and aged 51-60. Together these two age
+          groups
+          account for 55 percent of the total register.
+          <br>
+          Increases to the over 50 age bracket could be linked to changes in the wider UK workforce, where the number of
+          older workers is growing.</p>
 
         <form>
           <label>
@@ -97,46 +93,39 @@
             Show Percent</label>
         </form>
 
-        <p>The two largest age groups on the register are people aged 41–50 and aged 51-60. Together these two age
-          groups
-          account for 55 percent of the total register.
-          <br>
-          Increases to the over 50 age bracket could be linked to changes in the wider UK workforce, where the number of
-          older workers is growing.</p>
-
-      </div>
-
+      </div> <!-- end of .explore -->
       <div id="age-stack-chart"></div>
-
-    </div>
-
+    </div> <!-- end of .explore-age-->
 
 
+    <h3>Summary</h3>
+    <p>
+      Although the total number of nurses increased slightly, in the last two years the number of nurses flowing out
+      of
+      the
+      system exceeded those coming into the system. Also, because of Brexit and uncertainty around it, the number of
+      nurses coming from the EU decreased dramatically.
+      At the same time, due to the growing elderly population and a rising number of people with
+      multiple long-term illnesses the demand for care is increasing.
+    </p>
 
 
-    <div>
-      <h3>Summary</h3>
-      <p>
-        Although the total number of nurses increased slightly, in the last two years the number of nurses flowing out
-        of
-        the
-        system exceeded those coming into the system. Also, because of Brexit and uncertainty around it, the number of
-        nurses coming from the EU decreased dramatically.
-        At the same time, due to the growing elderly population and a rising number of people with
-        multiple long-term illnesses the demand for care is increasing.
-      </p>
-
-    </div>
     <h5>References</h5>
-    <small>1. Safe and Effective Staffing: the Real Picture, RCN, 21.07.2017,
-      https://www.rcn.org.uk/professional-development/publications/pub-006195 accessedd 11.04.2019 </small>
-    <small>
-      2.Health Foundation, Rising pressure: the NHS workforce challenge, October 2017; pp25–27
-    </small>
-    <small>NMC Data Source: https://www.nmc.org.uk/about-us/reports-and-accounts/registration-statistics/</small>
+    <ul>
+
+      <li id="ref1"><a href="https://www.rcn.org.uk/professional-development/publications/pub-006195">Safe and Effective
+          Staffing: the Real Picture, RCN</a></li>
+      <li id="ref2"><a href="https://www.health.org.uk/publications/rising-pressure-the-nhs-workforce-challenge">Health
+          Foundation, Rising pressure: the NHS workforce challenge, October 2017</a></li>
+      <li><a href="https://www.nmc.org.uk/about-us/reports-and-accounts/registration-statistics/">NMC Data Source</a>
+      </li>
+      <li><a href="https://stats.oecd.org/index.aspx?DataSetCode=HEALTH_STAT">OECD Data Source</a></li>
+    </ul>
 
 
-  </div>
+
+  </div> <!-- end of .container -->
+
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <!-- Load all visualisations -->
@@ -144,6 +133,7 @@
   <script src="totalStack.js"> </script>
   <script src="joiners.js"></script>
   <script src="age.js"></script>
+
 
 </body>
 

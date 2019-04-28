@@ -291,8 +291,7 @@ function showStackedChartTotal(){
       .attr("x", widthStackTotal + 18)
       .attr("y", -10)
       .attr("text-anchor", "start")
-      .text("Initial Registration In:")
-        .style("font-weight", "bold");
+      .text("Initial Registration:");
 
     // add legend 
     let legend = svgStackTotal.selectAll(".legend")
@@ -439,10 +438,13 @@ function changeCircleColorOnClick(e){
   const circles = document.querySelectorAll(".circle");
   // first change all circles to back to white
   for (let i = 0; i < circles.length; i++){
-    circles[i].style.background = "white";
+    circles[i].style.background = "#fff";
   }
-  // change color of clicked circle
-  e.target.style.background = "grey";
+  // change color if circle clicked
+  if (e.target.matches(".circle")){
+    e.target.style.background = "#d9e0e5";
+  }
+ 
 }
 
 // handle colour of circles in the step vis when moving with back/next buttons
@@ -450,10 +452,10 @@ function autoChangeCircleColor(circle_id){
   const circles = document.querySelectorAll(".circle");
  
   for (let i = 0; i < circles.length; i++){
-    circles[i].style.background = "white";
+    circles[i].style.background = "#fff";
   }
   
-  circles[circle_id].style.background = "grey";
+  circles[circle_id].style.background = "#d9e0e5";
 }
 
 
