@@ -31,7 +31,7 @@ svgAgeStack.append("g")
   
 
 // create colours array
-const coloursAgeStack = ['#fbb4ae','#b3cde3','#ccebc5','#decbe4','#fed9a6','#ffffcc'];
+const coloursAgeStack = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#2b8cbe','#045a8d'];
   
     
 function showAgeStackChart(){

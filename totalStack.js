@@ -30,7 +30,7 @@ svgStackTotal.append("g")
     .attr("class", "y axis")
   
  // create colours array
-const colours = ["#ccebc5", "#b3cde3", "#fbb4ae"];
+const colours = ['#b2df8a','#a6cee3','#1f78b4'];
   
 // Create global div for tooltip
 let tooltip = d3.select("body")
@@ -194,7 +194,7 @@ function showStackedChartTotal(){
     
     let colour = d3.scaleOrdinal()
       .domain(subgroups)
-      .range(["#ccebc5", "#b3cde3", "#fbb4ae"]); // TODO: change colors
+      .range(colours);
     
     
      // stack the data
@@ -251,6 +251,16 @@ function showStackedChartTotal(){
         tooltip.html(`<b>${subgroupName}</b>: <br>${subgroupValue}`)
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY) + "px");
+
+        // add text with total number per year
+        // remove it first if present
+        svgStackTotal.selectAll(".totalText").remove();
+        svgStackTotal
+          .append("text")
+          .attr("class", "totalText")
+          .attr("x", widthStackTotal + 18)
+          .attr("y", 100)
+          .text(`Total Number: ${d.data.total}`); 
       })
 
       .on("mousemove", function(d) { 
@@ -263,6 +273,10 @@ function showStackedChartTotal(){
         tooltip.transition()
           .duration(500)
           .style("opacity", 0);
+        
+        // remove total text   
+        svgStackTotal.selectAll(".totalText")
+          .remove();
       });
 
      // Call the  axis
@@ -427,8 +441,8 @@ function showNursesNEEA(e){
 function showNursesEEA(e){
   changeCircleColorOnClick(e);
   showSingleBar(2);
-  explanationDiv.innerHTML = `<h4>Nurses and midwives with initial registration in EEA</h4>
-      <p>The number of nurses and midwives with initial registration in EEA continues to fall, with the total 33874 in 2018 compared to the peak of 38992 in 2016.
+  explanationDiv.innerHTML = `<h4>Nurses and midwifes with initial registration in EEA</h4>
+      <p>The number of nurses and midwifes with initial registration in EEA continues to fall, with the total 33874 in 2018 compared to the peak of 38992 in 2016.
       </p>`;
   currentDiv = 3;
 }
