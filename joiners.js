@@ -218,7 +218,7 @@ d3.csv("data/joiners_vs_leavers.csv", function(error, data){
       .attr("y", -56)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Number of nurses and midwifes");
+      .text("Number of nurses and midwives");
 
     }
     
